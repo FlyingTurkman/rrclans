@@ -1,0 +1,167 @@
+{
+  "MainMenu": {
+    "clans": "Klanlar",
+    "players": "Oyuncular",
+    "register": "Kayıt Ol",
+    "login": "Giriş Yap",
+    "loading": "Yükleniyor...",
+    "logout": "Çıkış Yap"
+  },
+  "Search": {
+    "trigger": "Herhangi bir şey ara...",
+    "placeholder": "Bir isim yazın...",
+    "loading": "Aranıyor...",
+    "empty": "Sonuç bulunamadı.",
+    "loadError": "Arama yapılamadı. Lütfen tekrar dene.",
+    "clans": "Klanlar",
+    "players": "Oyuncular"
+  },
+  "Validation": {
+    "required": "Bu alan zorunludur.",
+    "minLength": "En az {min} karakter olmalıdır.",
+    "maxLength": "En fazla {max} karakter olmalıdır.",
+    "invalidEmail": "Geçerli bir e-posta adresi girin.",
+    "invalidContent": "İçerik geçerli değil."
+  },
+  "RegisterPage": {
+    "title": "Hesap oluştur",
+    "description": "Klanını bulmak ya da yönetmek için RR Clans'a katıl.",
+    "username": "Kullanıcı adı",
+    "name": "Ad",
+    "surname": "Soyad",
+    "submit": "Kayıt Ol",
+    "email": "E-posta",
+    "password": "Şifre",
+    "login": "Zaten hesabın var mı? Giriş yap"
+  },
+  "AuthErrors": {
+    "usernameTaken": "Bu kullanıcı adı zaten alınmış.",
+    "emailTaken": "Bu e-posta zaten kayıtlı.",
+    "invalidCredentials": "E-posta veya şifre hatalı.",
+    "sessionExpired": "Oturumunun süresi doldu. Lütfen tekrar giriş yap.",
+    "unauthorized": "Giriş yapman gerekiyor.",
+    "unknown": "Bir şeyler ters gitti. Lütfen tekrar dene."
+  },
+  "LoginPage": {
+    "title": "Tekrar hoş geldin",
+    "description": "RR Clans hesabına giriş yap.",
+    "email": "E-posta",
+    "password": "Şifre",
+    "submit": "Giriş Yap",
+    "register": "Hesabın yok mu? Kayıt ol"
+  },
+  "ClansPage": {
+    "title": "Klanlar",
+    "searchTrigger": "Klan ara...",
+    "searchPlaceholder": "Klan adı veya etiketi yazın...",
+    "regionLabel": "Bölge",
+    "allRegions": "Tüm bölgeler",
+    "regions": {
+      "EU": "Avrupa",
+      "NA": "Kuzey Amerika"
+    },
+    "members": "{count} üye",
+    "empty": "Klan bulunamadı.",
+    "loading": "Yükleniyor...",
+    "loadError": "Klanlar yüklenemedi. Lütfen tekrar dene."
+  },
+  "Pagination": {
+    "label": "Sayfalar",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "page": "Sayfa {page}"
+  },
+  "ListFilters": {
+    "sortLabel": "Sıralama",
+    "sorts": {
+      "newest": "En yeni",
+      "oldest": "En eski",
+      "name": "İsim"
+    },
+    "reset": "Filtreleri sıfırla"
+  },
+  "PlayersPage": {
+    "title": "Oyuncular",
+    "searchTrigger": "Oyuncu ara...",
+    "searchPlaceholder": "Kullanıcı adı veya Steam adı yazın...",
+    "steam": "Steam: {name}",
+    "empty": "Oyuncu bulunamadı.",
+    "loading": "Yükleniyor...",
+    "loadError": "Oyuncular yüklenemedi. Lütfen tekrar dene."
+  },
+  "ClanRoles": {
+    "LEADER": "Lider",
+    "OFFICER": "Subay",
+    "FIGHTER": "Savaşçı",
+    "RECRUIT": "Acemi"
+  },
+  "PlayerPage": {
+    "joined": "Katılma tarihi: {date}",
+    "clans": "Klanlar",
+    "noClans": "Bu oyuncu bir klanda değil.",
+    "loading": "Yükleniyor...",
+    "notFound": "Oyuncu bulunamadı.",
+    "loadError": "Oyuncu yüklenemedi. Lütfen tekrar dene.",
+    "servers": "Aktif sunucular",
+    "noServers": "Bu oyuncunun aktif sunucusu yok.",
+    "serverEnds": "Bitiş: {date}"
+  },
+  "ClanPage": {
+    "created": "Kuruluş tarihi: {date}",
+    "noMembers": "Bu klanın üyesi yok.",
+    "loading": "Yükleniyor...",
+    "notFound": "Klan bulunamadı.",
+    "loadError": "Klan yüklenemedi. Lütfen tekrar dene.",
+    "tabs": {
+      "wall": "Duvar",
+      "members": "Üyeler",
+      "servers": "Sunucular"
+    }
+  },
+  "Language": {
+    "label": "Dil: {language}",
+    "loading": "Yükleniyor...",
+    "en": "English",
+    "tr": "Türkçe"
+  },
+  "Editor": {
+    "fontDefault": "Varsayılan",
+    "fontMono": "Eş aralıklı",
+    "sizeSmall": "Küçük",
+    "sizeDefault": "Varsayılan",
+    "sizeMedium": "Orta",
+    "sizeLarge": "Büyük",
+    "sizeXLarge": "Çok büyük"
+  },
+  "ClanWall": {
+    "newPost": "Yeni yazı",
+    "editPost": "Yazıyı düzenle",
+    "title": "Başlık",
+    "content": "İçerik",
+    "publish": "Yayınla",
+    "save": "Kaydet",
+    "cancel": "Vazgeç",
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "deleteTitle": "Yazı silinsin mi?",
+    "deleteDescription": "\"{title}\" kalıcı olarak silinecek.",
+    "empty": "Duvarda henüz bir şey yok.",
+    "loading": "Yükleniyor...",
+    "loadError": "Duvar yüklenemedi. Lütfen tekrar dene.",
+    "actionError": "Bir şeyler ters gitti. Lütfen tekrar dene.",
+    "forbidden": "Bunu yapmaya yetkin yok.",
+    "notFound": "Yazı bulunamadı."
+  },
+  "ClanServers": {
+    "add": "Sunucu ekle",
+    "remove": "{name} sunucusunu çıkar",
+    "ends": "Bitiş: {date}",
+    "empty": "Bu klanın aktif sunucusu yok.",
+    "noAvailable": "Eklenebilecek başka aktif sunucu yok.",
+    "actionError": "Bir şeyler ters gitti. Lütfen tekrar dene.",
+    "forbidden": "Bunu yapmaya yetkin yok.",
+    "notFound": "Sunucu bulunamadı.",
+    "notActive": "Bu sunucu aktif değil.",
+    "alreadyAdded": "Bu sunucu zaten eklenmiş."
+  }
+}

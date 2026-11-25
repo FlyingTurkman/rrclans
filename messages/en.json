@@ -1,0 +1,167 @@
+{
+  "MainMenu": {
+    "clans": "Clans",
+    "players": "Players",
+    "register": "Register",
+    "login": "Login",
+    "loading": "Loading...",
+    "logout": "Log out"
+  },
+  "Search": {
+    "trigger": "Search for anything...",
+    "placeholder": "Type a name...",
+    "loading": "Searching...",
+    "empty": "No results found.",
+    "loadError": "Search failed. Please try again.",
+    "clans": "Clans",
+    "players": "Players"
+  },
+  "Validation": {
+    "required": "This field is required.",
+    "minLength": "Must be at least {min} characters.",
+    "maxLength": "Must be at most {max} characters.",
+    "invalidEmail": "Enter a valid email address.",
+    "invalidContent": "The content is not valid."
+  },
+  "RegisterPage": {
+    "title": "Create an account",
+    "description": "Join RR Clans to find or manage your clan.",
+    "username": "Username",
+    "name": "Name",
+    "surname": "Surname",
+    "submit": "Register",
+    "email": "Email",
+    "password": "Password",
+    "login": "Already have an account? Log in"
+  },
+  "AuthErrors": {
+    "usernameTaken": "This username is already taken.",
+    "emailTaken": "This email is already registered.",
+    "invalidCredentials": "Email or password is incorrect.",
+    "sessionExpired": "Your session has expired. Please log in again.",
+    "unauthorized": "You need to log in.",
+    "unknown": "Something went wrong. Please try again."
+  },
+  "LoginPage": {
+    "title": "Welcome back",
+    "description": "Log in to your RR Clans account.",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Log in",
+    "register": "Don't have an account? Register"
+  },
+  "ClansPage": {
+    "title": "Clans",
+    "searchTrigger": "Search clans...",
+    "searchPlaceholder": "Type a clan name or tag...",
+    "regionLabel": "Region",
+    "allRegions": "All regions",
+    "regions": {
+      "EU": "Europe",
+      "NA": "North America"
+    },
+    "members": "{count, plural, one {# member} other {# members}}",
+    "empty": "No clans found.",
+    "loading": "Loading...",
+    "loadError": "Clans could not be loaded. Please try again."
+  },
+  "Pagination": {
+    "label": "Pages",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {page}"
+  },
+  "ListFilters": {
+    "sortLabel": "Sort by",
+    "sorts": {
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "name": "Name"
+    },
+    "reset": "Reset filters"
+  },
+  "PlayersPage": {
+    "title": "Players",
+    "searchTrigger": "Search players...",
+    "searchPlaceholder": "Type a username or Steam name...",
+    "steam": "Steam: {name}",
+    "empty": "No players found.",
+    "loading": "Loading...",
+    "loadError": "Players could not be loaded. Please try again."
+  },
+  "ClanRoles": {
+    "LEADER": "Leader",
+    "OFFICER": "Officer",
+    "FIGHTER": "Fighter",
+    "RECRUIT": "Recruit"
+  },
+  "PlayerPage": {
+    "joined": "Joined on {date}",
+    "clans": "Clans",
+    "noClans": "This player is not in a clan.",
+    "loading": "Loading...",
+    "notFound": "Player not found.",
+    "loadError": "The player could not be loaded. Please try again.",
+    "servers": "Active servers",
+    "noServers": "This player has no active servers.",
+    "serverEnds": "Ends on {date}"
+  },
+  "ClanPage": {
+    "created": "Created on {date}",
+    "noMembers": "This clan has no members.",
+    "loading": "Loading...",
+    "notFound": "Clan not found.",
+    "loadError": "The clan could not be loaded. Please try again.",
+    "tabs": {
+      "wall": "Wall",
+      "members": "Members",
+      "servers": "Servers"
+    }
+  },
+  "Language": {
+    "label": "Language: {language}",
+    "loading": "Loading...",
+    "en": "English",
+    "tr": "Türkçe"
+  },
+  "Editor": {
+    "fontDefault": "Default",
+    "fontMono": "Monospace",
+    "sizeSmall": "Small",
+    "sizeDefault": "Default",
+    "sizeMedium": "Medium",
+    "sizeLarge": "Large",
+    "sizeXLarge": "X-Large"
+  },
+  "ClanWall": {
+    "newPost": "New post",
+    "editPost": "Edit post",
+    "title": "Title",
+    "content": "Content",
+    "publish": "Publish",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteTitle": "Delete this post?",
+    "deleteDescription": "\"{title}\" will be deleted permanently.",
+    "empty": "There is nothing on the wall yet.",
+    "loading": "Loading...",
+    "loadError": "The wall could not be loaded. Please try again.",
+    "actionError": "Something went wrong. Please try again.",
+    "forbidden": "You are not allowed to do this.",
+    "notFound": "Post not found."
+  },
+  "ClanServers": {
+    "add": "Add a server",
+    "remove": "Remove {name}",
+    "ends": "Ends on {date}",
+    "empty": "This clan has no active servers.",
+    "noAvailable": "There are no other active servers to add.",
+    "actionError": "Something went wrong. Please try again.",
+    "forbidden": "You are not allowed to do this.",
+    "notFound": "Server not found.",
+    "notActive": "This server is not active.",
+    "alreadyAdded": "This server is already added."
+  }
+}
