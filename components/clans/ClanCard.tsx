@@ -2,7 +2,8 @@
 
 import Link from "next/link"
 import { useTranslations } from "next-intl"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import ClanAvatar from "@/components/clans/ClanAvatar"
+import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card"
 import type { ClanDto } from "@/dtos/clanDTO"
 import type { ClanRole } from "@/types"
 
@@ -32,12 +33,18 @@ export default function ClanCard({ clan, role }: ClanCardProps) {
         className="block rounded-xl"
         >
             <Card className="transition-colors hover:bg-accent">
-                <CardHeader>
-                    <CardTitle>[{clan.clanTag}] {clan.clanName}</CardTitle>
-                    <CardDescription>{tl(`regions.${clan.region}`)}</CardDescription>
-                </CardHeader>
-                <CardContent className="flex justify-between gap-2">
-                    <span>{t("members", { count: clan.memberCount })}</span>
+                <CardContent className="flex items-center gap-4">
+                    <ClanAvatar
+                    clanName={clan.clanName}
+                    avatar={clan.avatar}
+                    size="lg"
+                    className="size-16 data-[size=lg]:size-16 *:text-2xl"
+                    />
+                    <div className="flex min-w-0 flex-1 flex-col gap-1">
+                        <CardTitle className="truncate">[{clan.clanTag}] {clan.clanName}</CardTitle>
+                        <CardDescription>{tl(`regions.${clan.region}`)}</CardDescription>
+                        <p>{t("members", { count: clan.memberCount })}</p>
+                    </div>
                     {role && <span className="font-medium text-primary">{tr(role)}</span>}
                 </CardContent>
             </Card>

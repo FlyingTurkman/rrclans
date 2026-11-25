@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { getClanAvatarSrc } from "@/lib/src/clanAvatars"
 
 
 
@@ -10,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 type ClanAvatarProps = {
     clanName: string
+    // Id of a ready-made avatar (lib/src/clanAvatars.ts).
     avatar?: string | null
     size?: "default" | "sm" | "lg"
     className?: string
@@ -18,15 +20,16 @@ type ClanAvatarProps = {
 // Clan avatar. Shows the avatar image if there is one, otherwise (or while it
 // loads / if it fails) the first letter of the clan name.
 export default function ClanAvatar({ clanName, avatar, size = "default", className }: ClanAvatarProps) {
+    const src = getClanAvatarSrc(avatar)
 
     return (
         <Avatar
         size={size}
         className={className}
         >
-            {avatar && (
+            {src && (
                 <AvatarImage
-                src={avatar}
+                src={src}
                 alt={clanName}
                 />
             )}

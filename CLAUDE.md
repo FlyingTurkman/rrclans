@@ -94,7 +94,7 @@ from `layout.client.tsx`. `app/c/[clanId]` loads the clan in its layout, its tab
 (`wall`, `members`, `servers`) are routes and read it with `useClanContext()`
 (`context/ClanContext.tsx`). Add new tabs to `clanTabs` in the layout.
 The panel is not a tab: leader and officers open it with the settings icon in the header.
-It has its own layout with a shadcn `Sidebar`, every area is a page
+It has its own layout with `components/layout/PanelSidebar.tsx`, every area is a page
 (`app/c/[clanId]/panel/*`). Add new areas to `panelPages` in that layout, which also
 checks `canManage`.
 
@@ -175,8 +175,10 @@ Ask before destructive actions with `components/layout/ConfirmDialog.tsx`.
 ## Avatars of clans
 
 Always show clan avatars with `components/clans/ClanAvatar.tsx`.
-There are no uploads: the user provides ready-made images and the clan leader picks
-one of them. Not built yet, wait for the images.
+There are no uploads: the leader picks one of the ready-made images (or none) in the
+panel. `Clan.avatar` saves only the id from `lib/src/clanAvatars.ts`, the images are
+square (256x256) in `public/clan-avatars/<id>.webp`. Add new ones to both, never
+rename or remove one that clans may use.
 
 ## User avatars
 
@@ -205,7 +207,9 @@ const { user, setUser } = useSiteContext()
 
 ## Profile
 
-`/profile` edits the logged-in user. Its actions (`actions/profile`) take the user id
+`/profile` edits the logged-in user. Like the clan panel it has a layout with
+`PanelSidebar` and every area is a page (`app/profile/*`): add new areas to
+`profilePages` in that layout. Its actions (`actions/profile`) take the user id
 only from `getSession()`, never from the client. Changing the email or the password
 needs the current password; a new password logs out every other device. Use
 `components/form/FormTextField.tsx` for plain text inputs in forms.
@@ -345,8 +349,9 @@ Filters live in the URL and are changed only with **use-search-query**
 
 ### Search
 
-Every search UI uses the same structure: a shadcn `Popover` whose trigger is a
-`secondary` button, containing a `Command` with filtering disabled
+Every search UI uses the same structure: a shadcn `Popover` whose trigger is an
+`outline` button (like the `Select`s next to it; only `MainMenuSearchBar` in the
+header is `secondary`), containing a `Command` with filtering disabled
 (`shouldFilter={false}`, because results will come from the backend).
 Reference implementation: `components/layout/MainMenuSearchBar.tsx`.
 
@@ -357,7 +362,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { IoSearch } from "react-icons/io5"
 
 <Popover modal>
-    <PopoverTrigger className={buttonVariants({ variant: "secondary" })}>
+    <PopoverTrigger className={buttonVariants({ variant: "outline" })}>
         Search for anything... <IoSearch />
     </PopoverTrigger>
     <PopoverContent>
@@ -396,6 +401,10 @@ import { IoSearch } from "react-icons/io5"
   `leavePlayerServer`, read it with `getPlayerServers` (`lib/players/servers.ts`).
   "Active" also needs the lifetime of the server: an expired one counts as history.
   Players assign only themselves, on `/profile` (`actions/profile`).
+- Location of a player: a district (`districts`) and a settlement (1 to
+  `settlementCount`, both in `lib/src/constants.ts`), always both. It is saved per
+  server in `UserServer`, change it only with `setPlayerLocation`. Only the player sees
+  it: `getPlayerServers` is public and must not return it.
 
 ## Clan permissions
 

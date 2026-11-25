@@ -9,6 +9,7 @@ import { getProfileInvites } from "@/actions/profile/get-profile-invites"
 import ClanAvatar from "@/components/clans/ClanAvatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Spinner } from "@/components/ui/spinner"
 import type { ProfileInviteDto } from "@/dtos/clanJoinDTO"
 import type { ActionResult } from "@/types"
 
@@ -20,11 +21,13 @@ import type { ActionResult } from "@/types"
 
 
 
-// Clan invites of the logged-in user. Hidden while there are none.
+// Clan invites of the logged-in user.
 export default function ProfileInvites() {
     const t = useTranslations("ClanJoin")
 
-    const [invites, setInvites] = useState<ProfileInviteDto[]>([])
+    const [result, setResult] = useState<ActionResult<ProfileInviteDto[]> | null>(null)
+    // Increased to load the invites again after a change. The old list stays
+    // visible meanwhile.
     const [version, setVersion] = useState(0)
     const [error, setError] = useState<string | null>(null)
     const [isPending, startTransition] = useTransition()
@@ -33,10 +36,10 @@ export default function ProfileInvites() {
         let cancelled = false
 
         getProfileInvites()
-            .then((result) => {
-                if (!cancelled && result.success) setInvites(result.data)
+            .catch((): ActionResult<ProfileInviteDto[]> => ({ success: false }))
+            .then((newResult) => {
+                if (!cancelled) setResult(newResult)
             })
-            .catch(() => undefined)
 
         return () => {
             cancelled = true
@@ -48,9 +51,9 @@ export default function ProfileInvites() {
 
         startTransition(async () => {
             try {
-                const result = await action()
+                const changed = await action()
 
-                if (!result.success) setError(result.error ?? t("actionError"))
+                if (!changed.success) setError(changed.error ?? t("actionError"))
 
                 setVersion((current) => current + 1)
             } catch {
@@ -59,8 +62,6 @@ export default function ProfileInvites() {
         })
     }
 
-    if (invites.length === 0 && !error) return null
-
     return (
         <Card>
             <CardHeader>
@@ -68,8 +69,23 @@ export default function ProfileInvites() {
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
                 {error && <p className="text-destructive">{error}</p>}
+
+                {!result && (
+                    <div className="flex justify-center py-4">
+                        <Spinner className="size-6" aria-label={t("loading")}/>
+                    </div>
+                )}
+
+                {result && !result.success && (
+                    <p className="text-destructive">{result.error ?? t("actionError")}</p>
+                )}
+
+                {result?.success && result.data.length === 0 && (
+                    <p className="text-muted-foreground">{t("noInvites")}</p>
+                )}
+
                 <ul className="flex flex-col divide-y">
-                    {invites.map(({ id, clan }) => {
+                    {result?.success && result.data.map(({ id, clan }) => {
 
                         return (
                             <li

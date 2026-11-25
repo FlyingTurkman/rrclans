@@ -17,11 +17,13 @@ type FormSelectFieldProps<T extends FieldValues> = {
     name: FieldPath<T>
     id: string
     label: string
+    // Shown while the value is empty.
+    placeholder?: string
     items: { value: string, label: string }[]
 }
 
 // Select of a react-hook-form form.
-export default function FormSelectField<T extends FieldValues>({ control, name, id, label, items }: FormSelectFieldProps<T>) {
+export default function FormSelectField<T extends FieldValues>({ control, name, id, label, placeholder, items }: FormSelectFieldProps<T>) {
 
     return (
         <Controller
@@ -34,7 +36,7 @@ export default function FormSelectField<T extends FieldValues>({ control, name, 
                         <FieldLabel htmlFor={id}>{label}</FieldLabel>
                         <Select
                             items={items}
-                            value={field.value}
+                            value={field.value || null}
                             onValueChange={field.onChange}
                         >
                             <SelectTrigger
@@ -43,7 +45,7 @@ export default function FormSelectField<T extends FieldValues>({ control, name, 
                                 onBlur={field.onBlur}
                                 aria-invalid={fieldState.invalid}
                             >
-                                <SelectValue/>
+                                <SelectValue placeholder={placeholder}/>
                             </SelectTrigger>
                             <SelectContent>
                                 {items.map((item) => {

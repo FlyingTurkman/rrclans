@@ -8,11 +8,12 @@ import { removeProfileServer } from "@/actions/profile/remove-profile-server"
 import { setProfileServer } from "@/actions/profile/set-profile-server"
 import { searchServers } from "@/actions/servers/search-servers"
 import ServerHistory from "@/components/players/ServerHistory"
+import ServerLocationForm from "@/components/profile/ServerLocationForm"
 import ServerSearch from "@/components/servers/ServerSearch"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Spinner } from "@/components/ui/spinner"
-import type { ActionResult, PlayerServers } from "@/types"
+import type { ActionResult, ProfileServers } from "@/types"
 
 
 
@@ -29,7 +30,7 @@ export default function ProfileServer() {
     const te = useTranslations("AuthErrors")
     const format = useFormatter()
 
-    const [result, setResult] = useState<ActionResult<PlayerServers> | null>(null)
+    const [result, setResult] = useState<ActionResult<ProfileServers> | null>(null)
     // Increased to load the servers again after a change. The old list stays
     // visible meanwhile.
     const [version, setVersion] = useState(0)
@@ -40,7 +41,7 @@ export default function ProfileServer() {
         let cancelled = false
 
         getProfileServers()
-            .catch((): ActionResult<PlayerServers> => ({ success: false }))
+            .catch((): ActionResult<ProfileServers> => ({ success: false }))
             .then((newResult) => {
                 if (!cancelled) setResult(newResult)
             })
@@ -110,6 +111,14 @@ export default function ProfileServer() {
                                     <IoTrash/> {t("removeServer")}
                                 </Button>
                             </div>
+                        )}
+
+                        {result.data.server && (
+                            <ServerLocationForm
+                            key={result.data.server.id}
+                            serverId={result.data.server.id}
+                            location={result.data.location}
+                            />
                         )}
 
                         <h3 className="font-medium">{t("serverHistory")}</h3>

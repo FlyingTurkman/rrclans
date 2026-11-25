@@ -88,7 +88,7 @@ export default function ServerSearch({ triggerText, search, selectedId, disabled
         onOpenChange={handleOpenChange}
         >
             <PopoverTrigger
-            className={buttonVariants({ variant: "secondary", className: "self-start" })}
+            className={buttonVariants({ variant: "outline", className: "self-start" })}
             disabled={disabled}
             >
                 {triggerText} <IoSearch/>

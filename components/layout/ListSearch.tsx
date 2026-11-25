@@ -66,7 +66,7 @@ export default function ListSearch({ term, triggerText, placeholder }: ListSearc
         onOpenChange={handleOpenChange}
         >
             <PopoverTrigger
-            className={buttonVariants({ variant: "secondary" })}
+            className={buttonVariants({ variant: "outline" })}
             >
                 {term || triggerText} <IoSearch/>
             </PopoverTrigger>

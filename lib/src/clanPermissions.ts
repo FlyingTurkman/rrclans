@@ -10,6 +10,11 @@ export function isManagerRole(role: ClanRole | null): boolean {
     return role !== null && clanRolePriorities[role] >= clanRolePriorities.OFFICER
 }
 
+/** Only the leader changes the avatar of the clan. */
+export function canChangeAvatar(role: ClanRole | null): boolean {
+    return role !== null && clanRolePriorities[role] >= clanRolePriorities.LEADER
+}
+
 /** Managers manage the members with a lower priority than their own. */
 export function canManageRole(role: ClanRole | null, targetRole: ClanRole): boolean {
     return role !== null && isManagerRole(role) && clanRolePriorities[targetRole] < clanRolePriorities[role]

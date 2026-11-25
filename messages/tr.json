@@ -25,6 +25,7 @@
     "maxLength": "En fazla {max} karakter olmalıdır.",
     "invalidEmail": "Geçerli bir e-posta adresi girin.",
     "invalidContent": "İçerik geçerli değil.",
+    "numberRange": "{min} ile {max} arasında bir sayı olmalıdır.",
     "invalidTag": "Yalnızca A-Z harfleri ve rakam kullanılabilir."
   },
   "RegisterPage": {
@@ -180,6 +181,14 @@
     "alreadyAdded": "Bu sunucu zaten eklenmiş."
   },
   "ProfilePage": {
+    "title": "Profil ayarları",
+    "pages": {
+      "info": "Profil",
+      "server": "Sunucu",
+      "invites": "Klan davetleri",
+      "email": "E-posta",
+      "password": "Şifre"
+    },
     "viewProfile": "Herkese açık profili gör",
     "save": "Kaydet",
     "saved": "Kaydedildi.",
@@ -199,6 +208,13 @@
     "passwordSaved": "Şifren değiştirildi.",
     "removeServer": "Sunucudan çık",
     "serverEnds": "Bitiş: {date}",
+    "location": "Konum",
+    "locationDescription": "Bu sunucudaki district ve settlement bilgin. Yalnızca sen görebilirsin.",
+    "district": "District",
+    "chooseDistrict": "District seç",
+    "districtOption": "{name} (seviye {level})",
+    "settlement": "Settlement (1-{max})",
+    "saveLocation": "Konumu kaydet",
     "serverErrors": {
       "notFound": "Sunucu bulunamadı.",
       "notActive": "Bu sunucu aktif değil."
@@ -245,6 +261,10 @@
   },
   "ClanPanel": {
     "info": "Klan bilgileri",
+    "avatar": "Avatar",
+    "avatarDescription": "Avatarlardan birini seç ya da avatarsız bırak.",
+    "avatarOption": "Avatar {number}",
+    "noAvatar": "Avatar yok",
     "clanName": "Klan adı",
     "clanTag": "Klan etiketi",
     "save": "Kaydet",
@@ -307,6 +327,8 @@
     "leave": "Klandan ayrıl",
     "leaveTitle": "Klandan ayrılınsın mı?",
     "leaveDescription": "Artık {name} klanının üyesi olmayacaksın.",
+    "noInvites": "Klan davetin yok.",
+    "loading": "Yükleniyor...",
     "yourInvites": "Klan davetleri",
     "notFound": "Klan bulunamadı.",
     "unauthorized": "Giriş yapman gerekiyor.",
@@ -383,7 +405,23 @@
       },
       "profile": {
         "title": "Profil",
-        "description": "Profilini düzenle ve sunucunu seç."
+        "description": "Profilini düzenle."
+      },
+      "profileServer": {
+        "title": "Sunucu",
+        "description": "Sunucunu ve oradaki konumunu seç."
+      },
+      "profileInvites": {
+        "title": "Klan davetleri",
+        "description": "Seni davet eden klanlar."
+      },
+      "profileEmail": {
+        "title": "E-posta",
+        "description": "Hesabının e-posta adresini değiştir."
+      },
+      "profilePassword": {
+        "title": "Şifre",
+        "description": "Hesabının şifresini değiştir."
       },
       "notifications": {
         "title": "Bildirimler",

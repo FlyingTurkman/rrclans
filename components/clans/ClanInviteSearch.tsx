@@ -100,7 +100,7 @@ export default function ClanInviteSearch({ onInvited }: ClanInviteSearchProps) {
         }}
         >
             <PopoverTrigger
-            className={buttonVariants({ variant: "secondary", className: "self-start" })}
+            className={buttonVariants({ variant: "outline", className: "self-start" })}
             >
                 {t("invite")} <IoSearch/>
             </PopoverTrigger>

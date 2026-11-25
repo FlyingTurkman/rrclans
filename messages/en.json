@@ -25,6 +25,7 @@
     "maxLength": "Must be at most {max} characters.",
     "invalidEmail": "Enter a valid email address.",
     "invalidContent": "The content is not valid.",
+    "numberRange": "Must be a number from {min} to {max}.",
     "invalidTag": "Only letters A-Z and numbers are allowed."
   },
   "RegisterPage": {
@@ -180,6 +181,14 @@
     "alreadyAdded": "This server is already added."
   },
   "ProfilePage": {
+    "title": "Profile settings",
+    "pages": {
+      "info": "Profile",
+      "server": "Server",
+      "invites": "Clan invites",
+      "email": "Email",
+      "password": "Password"
+    },
     "viewProfile": "View public profile",
     "save": "Save",
     "saved": "Saved.",
@@ -199,6 +208,13 @@
     "passwordSaved": "Your password has been changed.",
     "removeServer": "Leave server",
     "serverEnds": "Ends on {date}",
+    "location": "Location",
+    "locationDescription": "Your district and settlement on this server. Only you can see it.",
+    "district": "District",
+    "chooseDistrict": "Choose a district",
+    "districtOption": "{name} (level {level})",
+    "settlement": "Settlement (1-{max})",
+    "saveLocation": "Save location",
     "serverErrors": {
       "notFound": "Server not found.",
       "notActive": "This server is not active."
@@ -245,6 +261,10 @@
   },
   "ClanPanel": {
     "info": "Clan information",
+    "avatar": "Avatar",
+    "avatarDescription": "Choose one of the avatars or none.",
+    "avatarOption": "Avatar {number}",
+    "noAvatar": "No avatar",
     "clanName": "Clan name",
     "clanTag": "Clan tag",
     "save": "Save",
@@ -307,6 +327,8 @@
     "leave": "Leave clan",
     "leaveTitle": "Leave this clan?",
     "leaveDescription": "You will no longer be a member of {name}.",
+    "noInvites": "You have no clan invites.",
+    "loading": "Loading...",
     "yourInvites": "Clan invites",
     "notFound": "Clan not found.",
     "unauthorized": "You need to log in.",
@@ -383,7 +405,23 @@
       },
       "profile": {
         "title": "Profile",
-        "description": "Edit your profile and choose your server."
+        "description": "Edit your profile."
+      },
+      "profileServer": {
+        "title": "Server",
+        "description": "Choose your server and your location on it."
+      },
+      "profileInvites": {
+        "title": "Clan invites",
+        "description": "Clans that invited you."
+      },
+      "profileEmail": {
+        "title": "Email",
+        "description": "Change the email of your account."
+      },
+      "profilePassword": {
+        "title": "Password",
+        "description": "Change the password of your account."
       },
       "notifications": {
         "title": "Notifications",

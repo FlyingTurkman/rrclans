@@ -1,10 +1,11 @@
 import "server-only"
 import { Prisma } from "@prisma/client"
+import { PlayerLocationDto } from "@/dtos/playerLocationDTO"
 import { ServerDto } from "@/dtos/serverDTO"
 import { prisma } from "@/lib/prisma"
 import { pageLimit } from "@/lib/src/constants"
 import { isServerActive } from "@/lib/src/serverLifetime"
-import type { PlayerServers } from "@/types"
+import type { PlayerLocation, PlayerServers } from "@/types"
 
 export type SetServerResult = "set" | "notFound" | "notActive"
 
@@ -54,6 +55,38 @@ export async function setPlayerServer(userId: string, serverId: string): Promise
 /** Leaves the active server, it stays as history. Does not check permissions. */
 export async function leavePlayerServer(userId: string): Promise<void> {
     await prisma.userServer.updateMany({ where: { userId, isActive: true }, data: { isActive: false } })
+}
+
+/**
+ * Saves the location of a player on their active server, the other servers keep
+ * their own. Does not check permissions: the calling server action must do that
+ * and validate the ids and the location.
+ */
+export async function setPlayerLocation(userId: string, serverId: string, location: PlayerLocation): Promise<SetServerResult> {
+    const record = await prisma.userServer.findUnique({
+        where: { userId_serverId: { userId, serverId } },
+        select: { id: true, server: { select: { beganAt: true } } },
+    })
+
+    if (!record) return "notFound"
+    if (!isServerActive(record.server.beganAt)) return "notActive"
+
+    const { count } = await prisma.userServer.updateMany({
+        where: { id: record.id, isActive: true },
+        data: { district: location.district, settlement: location.settlement },
+    })
+
+    return count > 0 ? "set" : "notActive"
+}
+
+/** Location of a player on one server. Does not check permissions. */
+export async function getPlayerLocation(userId: string, serverId: string): Promise<PlayerLocationDto | null> {
+    const record = await prisma.userServer.findUnique({
+        where: { userId_serverId: { userId, serverId } },
+        select: { district: true, settlement: true },
+    })
+
+    return record ? { ...new PlayerLocationDto(record) } : null
 }
 
 /**

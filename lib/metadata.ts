@@ -8,6 +8,7 @@ export const SITE_NAME = "RR Clans"
 type MetadataPage =
     | "clans" | "players" | "lfc" | "lfp"
     | "login" | "register" | "profile" | "notifications"
+    | "profileServer" | "profileInvites" | "profileEmail" | "profilePassword"
 
 type BuildMetadataInput = {
     title?: Metadata["title"]
