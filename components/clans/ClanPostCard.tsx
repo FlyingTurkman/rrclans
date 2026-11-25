@@ -3,9 +3,9 @@
 import { useState, useTransition } from "react"
 import Link from "next/link"
 import { useFormatter, useTranslations } from "next-intl"
-import { IoPencil, IoTrash } from "react-icons/io5"
+import { IoLockClosed, IoPencil, IoTrash } from "react-icons/io5"
 import { deleteClanPost } from "@/actions/clan-posts/delete-clan-post"
-import RichTextContent from "@/components/editor/RichTextContent"
+import RichTextPreview from "@/components/editor/RichTextPreview"
 import {
     AlertDialog,
     AlertDialogAction,
@@ -83,6 +83,11 @@ export default function ClanPostCard({ post, onEdit, onDeleted }: ClanPostCardPr
                         {post.author.username}
                     </Link>
                     {format.dateTime(post.createdAt, { dateStyle: "long", timeStyle: "short" })}
+                    {post.visibility === "MEMBER" && (
+                        <span className="flex items-center gap-1 text-primary">
+                            <IoLockClosed/> {t("visibilities.MEMBER")}
+                        </span>
+                    )}
                 </CardDescription>
                 {(post.canEdit || post.canDelete) && (
                     <CardAction className="flex gap-1">
@@ -131,7 +136,7 @@ export default function ClanPostCard({ post, onEdit, onDeleted }: ClanPostCardPr
                 )}
             </CardHeader>
             <CardContent>
-                <RichTextContent html={post.content}/>
+                <RichTextPreview html={post.content}/>
             </CardContent>
         </Card>
     )

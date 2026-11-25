@@ -2,14 +2,13 @@
 
 import { getTranslations } from "next-intl/server"
 import { PlayerClanDto } from "@/dtos/clanMemberDTO"
-import { ServerDto } from "@/dtos/serverDTO"
 import { PublicUserDto } from "@/dtos/userDTO"
+import { getPlayerServers } from "@/lib/players/servers"
 import { prisma } from "@/lib/prisma"
 import { objectIdSchema } from "@/lib/schemas/auth.schema"
-import { getActiveServerRange } from "@/lib/src/serverLifetime"
 import type { ActionResult, PlayerDetail } from "@/types"
 
-/** Returns a player with their clans and active servers. */
+/** Returns a player with their clans and servers. */
 export async function getPlayer(playerId: unknown): Promise<ActionResult<PlayerDetail>> {
     const t = await getTranslations("PlayerPage")
 
@@ -28,10 +27,6 @@ export async function getPlayer(playerId: unknown): Promise<ActionResult<PlayerD
                     orderBy: { createdAt: "asc" },
                     include: { clan: { include: { _count: { select: { members: true } } } } },
                 },
-                servers: {
-                    where: { server: { beganAt: getActiveServerRange() } },
-                    include: { server: true },
-                },
             },
         })
 
@@ -39,17 +34,12 @@ export async function getPlayer(playerId: unknown): Promise<ActionResult<PlayerD
             return { success: false, error: t("notFound") }
         }
 
-        // Newest server first.
-        const servers = user.servers
-            .map(({ server }) => ({ ...new ServerDto(server) }))
-            .sort((a, b) => b.beganAt.getTime() - a.beganAt.getTime())
-
         return {
             success: true,
             data: {
                 player: { ...new PublicUserDto(user) },
                 clans: user.clanMemberships.map((membership) => ({ ...new PlayerClanDto(membership) })),
-                servers,
+                ...await getPlayerServers(user.id),
             },
         }
     } catch (error) {

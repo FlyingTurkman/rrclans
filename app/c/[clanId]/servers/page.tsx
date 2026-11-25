@@ -1,4 +1,5 @@
 import ServersPageClient from "./page.client"
+import { getTranslations } from "next-intl/server"
 
 
 
@@ -8,6 +9,13 @@ import ServersPageClient from "./page.client"
 
 
 
+
+// The template in the clan layout adds the clan.
+export async function generateMetadata() {
+    const t = await getTranslations("ClanPage")
+
+    return { title: t("tabs.servers") }
+}
 
 export default function Page() {
 

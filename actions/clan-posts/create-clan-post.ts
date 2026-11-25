@@ -25,13 +25,14 @@ export async function createClanPost(clanId: string, input: ClanPostFormValues):
 
         if (!access?.isManager) return { success: false, error: t("forbidden") }
 
-        const { title, rawContent } = parsed.data
+        const { title, visibility, rawContent } = parsed.data
 
         await prisma.clanPost.create({
             data: {
                 clanId: parsedId.data,
                 authorId: access.userId,
                 title,
+                visibility,
                 rawContent,
                 content: serializeToHtml(rawContent),
             },

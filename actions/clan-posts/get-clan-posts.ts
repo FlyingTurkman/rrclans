@@ -1,6 +1,7 @@
 "use server"
 
 import { getTranslations } from "next-intl/server"
+import type { Prisma } from "@prisma/client"
 import { ClanPostDto } from "@/dtos/clanPostDTO"
 import { canDeletePost, canEditPost, getClanAccess } from "@/lib/clans/access"
 import { prisma } from "@/lib/prisma"
@@ -9,7 +10,10 @@ import { clanPostQuerySchema } from "@/lib/schemas/clan-post-query.schema"
 import { pageLimit } from "@/lib/src/constants"
 import type { ActionResult, ClanPostList } from "@/types"
 
-/** Returns one page of the wall of a clan, newest post first. */
+/**
+ * Returns one page of the wall of a clan, newest post first. MEMBER posts are
+ * only returned to members of the clan.
+ */
 export async function getClanPosts(clanId: unknown, input: unknown): Promise<ActionResult<ClanPostList>> {
     const t = await getTranslations("ClanWall")
 
@@ -20,11 +24,14 @@ export async function getClanPosts(clanId: unknown, input: unknown): Promise<Act
         return { success: false, error: t("loadError") }
     }
 
-    const where = { clanId: parsedId.data }
-
     try {
-        const [access, posts, total] = await Promise.all([
-            getClanAccess(parsedId.data),
+        const access = await getClanAccess(parsedId.data)
+
+        const where: Prisma.ClanPostWhereInput = { clanId: parsedId.data }
+
+        if (!access?.isMember) where.visibility = "PUBLIC"
+
+        const [posts, total] = await Promise.all([
             prisma.clanPost.findMany({
                 where,
                 orderBy: [{ createdAt: "desc" }, { id: "desc" }],

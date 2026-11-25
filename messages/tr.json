@@ -5,7 +5,10 @@
     "register": "Kayıt Ol",
     "login": "Giriş Yap",
     "loading": "Yükleniyor...",
-    "logout": "Çıkış Yap"
+    "logout": "Çıkış Yap",
+    "profile": "Profil",
+    "lfc": "Klan arayanlar",
+    "lfp": "Oyuncu arayanlar"
   },
   "Search": {
     "trigger": "Herhangi bir şey ara...",
@@ -21,7 +24,8 @@
     "minLength": "En az {min} karakter olmalıdır.",
     "maxLength": "En fazla {max} karakter olmalıdır.",
     "invalidEmail": "Geçerli bir e-posta adresi girin.",
-    "invalidContent": "İçerik geçerli değil."
+    "invalidContent": "İçerik geçerli değil.",
+    "invalidTag": "Yalnızca A-Z harfleri ve rakam kullanılabilir."
   },
   "RegisterPage": {
     "title": "Hesap oluştur",
@@ -40,7 +44,8 @@
     "invalidCredentials": "E-posta veya şifre hatalı.",
     "sessionExpired": "Oturumunun süresi doldu. Lütfen tekrar giriş yap.",
     "unauthorized": "Giriş yapman gerekiyor.",
-    "unknown": "Bir şeyler ters gitti. Lütfen tekrar dene."
+    "unknown": "Bir şeyler ters gitti. Lütfen tekrar dene.",
+    "wrongPassword": "Mevcut şifre hatalı."
   },
   "LoginPage": {
     "title": "Tekrar hoş geldin",
@@ -54,12 +59,6 @@
     "title": "Klanlar",
     "searchTrigger": "Klan ara...",
     "searchPlaceholder": "Klan adı veya etiketi yazın...",
-    "regionLabel": "Bölge",
-    "allRegions": "Tüm bölgeler",
-    "regions": {
-      "EU": "Avrupa",
-      "NA": "Kuzey Amerika"
-    },
     "members": "{count} üye",
     "empty": "Klan bulunamadı.",
     "loading": "Yükleniyor...",
@@ -76,9 +75,20 @@
     "sorts": {
       "newest": "En yeni",
       "oldest": "En eski",
-      "name": "İsim"
+      "name": "İsim",
+      "rank": "Rütbe"
     },
-    "reset": "Filtreleri sıfırla"
+    "reset": "Filtreleri sıfırla",
+    "regionLabel": "Bölge",
+    "allRegions": "Tüm bölgeler",
+    "regions": {
+      "EU": "Avrupa",
+      "NA": "Kuzey Amerika"
+    },
+    "allServers": "Tüm sunucular",
+    "unknownServer": "Seçili sunucu",
+    "allRoles": "Tüm rütbeler",
+    "roleLabel": "Rütbe"
   },
   "PlayersPage": {
     "title": "Oyuncular",
@@ -102,13 +112,13 @@
     "loading": "Yükleniyor...",
     "notFound": "Oyuncu bulunamadı.",
     "loadError": "Oyuncu yüklenemedi. Lütfen tekrar dene.",
-    "servers": "Aktif sunucular",
-    "noServers": "Bu oyuncunun aktif sunucusu yok.",
-    "serverEnds": "Bitiş: {date}"
+    "serverEnds": "Bitiş: {date}",
+    "server": "Aktif sunucu",
+    "noServer": "Bu oyuncunun aktif sunucusu yok.",
+    "serverHistory": "Sunucu geçmişi"
   },
   "ClanPage": {
     "created": "Kuruluş tarihi: {date}",
-    "noMembers": "Bu klanın üyesi yok.",
     "loading": "Yükleniyor...",
     "notFound": "Klan bulunamadı.",
     "loadError": "Klan yüklenemedi. Lütfen tekrar dene.",
@@ -116,7 +126,8 @@
       "wall": "Duvar",
       "members": "Üyeler",
       "servers": "Sunucular"
-    }
+    },
+    "panel": "Klan ayarları"
   },
   "Language": {
     "label": "Dil: {language}",
@@ -125,13 +136,13 @@
     "tr": "Türkçe"
   },
   "Editor": {
-    "fontDefault": "Varsayılan",
-    "fontMono": "Eş aralıklı",
     "sizeSmall": "Küçük",
     "sizeDefault": "Varsayılan",
     "sizeMedium": "Orta",
     "sizeLarge": "Büyük",
-    "sizeXLarge": "Çok büyük"
+    "sizeXLarge": "Çok büyük",
+    "readMore": "Devamını oku",
+    "readLess": "Daha az göster"
   },
   "ClanWall": {
     "newPost": "Yeni yazı",
@@ -150,18 +161,234 @@
     "loadError": "Duvar yüklenemedi. Lütfen tekrar dene.",
     "actionError": "Bir şeyler ters gitti. Lütfen tekrar dene.",
     "forbidden": "Bunu yapmaya yetkin yok.",
-    "notFound": "Yazı bulunamadı."
+    "notFound": "Yazı bulunamadı.",
+    "visibility": "Kimler görebilir",
+    "visibilities": {
+      "PUBLIC": "Herkes",
+      "MEMBER": "Sadece üyeler"
+    }
   },
   "ClanServers": {
     "add": "Sunucu ekle",
     "remove": "{name} sunucusunu çıkar",
     "ends": "Bitiş: {date}",
     "empty": "Bu klanın aktif sunucusu yok.",
-    "noAvailable": "Eklenebilecek başka aktif sunucu yok.",
     "actionError": "Bir şeyler ters gitti. Lütfen tekrar dene.",
     "forbidden": "Bunu yapmaya yetkin yok.",
     "notFound": "Sunucu bulunamadı.",
     "notActive": "Bu sunucu aktif değil.",
     "alreadyAdded": "Bu sunucu zaten eklenmiş."
+  },
+  "ProfilePage": {
+    "viewProfile": "Herkese açık profili gör",
+    "save": "Kaydet",
+    "saved": "Kaydedildi.",
+    "loading": "Yükleniyor...",
+    "info": "Profil",
+    "infoDescription": "Kullanıcı adın ve adın herkese açıktır.",
+    "username": "Kullanıcı adı",
+    "name": "Ad",
+    "surname": "Soyad",
+    "email": "E-posta",
+    "emailDescription": "Mevcut e-posta: {email}",
+    "newEmail": "Yeni e-posta",
+    "currentPassword": "Mevcut şifre",
+    "password": "Şifre",
+    "passwordDescription": "Değiştirince diğer cihazlarından çıkış yapılır.",
+    "newPassword": "Yeni şifre",
+    "passwordSaved": "Şifren değiştirildi.",
+    "removeServer": "Sunucudan çık",
+    "serverEnds": "Bitiş: {date}",
+    "serverErrors": {
+      "notFound": "Sunucu bulunamadı.",
+      "notActive": "Bu sunucu aktif değil."
+    },
+    "server": "Sunucu",
+    "serverDescription": "Oynadığın aktif sunucu. Yalnızca bir tane olabilir.",
+    "chooseServer": "Sunucu seç",
+    "serverHistory": "Sunucu geçmişi"
+  },
+  "Lfg": {
+    "message": "Mesaj",
+    "save": "Kaydet",
+    "cancel": "Vazgeç",
+    "create": "İlan oluştur",
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "yourListing": "İlanın",
+    "clanListing": "{name} ilanı",
+    "noListing": "Henüz ilan yok.",
+    "servers": "Aktif sunucular",
+    "noServers": "Aktif sunucu yok",
+    "updated": "Güncelleme: {date}"
+  },
+  "LfcPage": {
+    "title": "Klan arayanlar",
+    "description": "Klan arayan oyuncular.",
+    "login": "İlan oluşturmak için giriş yap",
+    "searchTrigger": "Oyuncu ara...",
+    "searchPlaceholder": "Kullanıcı adı veya Steam adı yazın...",
+    "empty": "İlan bulunamadı.",
+    "loading": "Yükleniyor...",
+    "loadError": "İlanlar yüklenemedi. Lütfen tekrar dene."
+  },
+  "LfpPage": {
+    "title": "Oyuncu arayanlar",
+    "description": "Oyuncu arayan klanlar.",
+    "login": "Klanına ilan oluşturmak için giriş yap",
+    "searchTrigger": "Klan ara...",
+    "searchPlaceholder": "Klan adı veya etiketi yazın...",
+    "empty": "İlan bulunamadı.",
+    "loading": "Yükleniyor...",
+    "loadError": "İlanlar yüklenemedi. Lütfen tekrar dene.",
+    "forbidden": "Bunu yapmaya yetkin yok."
+  },
+  "ClanPanel": {
+    "info": "Klan bilgileri",
+    "clanName": "Klan adı",
+    "clanTag": "Klan etiketi",
+    "save": "Kaydet",
+    "saved": "Kaydedildi.",
+    "servers": "Sunucular",
+    "members": "Üyeler",
+    "changeRole": "{name} rütbesini değiştir",
+    "removeMember": "{name} üyesini çıkar",
+    "remove": "Çıkar",
+    "removeTitle": "Üye çıkarılsın mı?",
+    "removeDescription": "{name} klandan çıkarılacak.",
+    "tagTaken": "Bu etiket zaten alınmış.",
+    "memberNotFound": "Üye bulunamadı.",
+    "conflict": "Bu üye az önce başkası tarafından değiştirildi. Lütfen tekrar dene.",
+    "forbidden": "Bunu yapmaya yetkin yok.",
+    "actionError": "Bir şeyler ters gitti. Lütfen tekrar dene.",
+    "joinMode": "Katılma şekli",
+    "joinModes": {
+      "INVITE": "Sadece davetle",
+      "REQUEST": "Katılma isteğiyle",
+      "OPEN": "Herkese açık"
+    },
+    "joins": "Katılma istekleri ve davetler",
+    "requests": "Katılma istekleri",
+    "noRequests": "Katılma isteği yok.",
+    "accept": "Kabul et",
+    "reject": "Reddet",
+    "invites": "Gönderilen davetler",
+    "noInvites": "Bekleyen davet yok.",
+    "invite": "Oyuncu davet et...",
+    "invitePlaceholder": "Kullanıcı adı veya Steam adı yazın...",
+    "cancelInvite": "Daveti geri çek",
+    "loading": "Yükleniyor...",
+    "requestNotFound": "Bu istek artık yok.",
+    "inviteNotFound": "Bu davet artık yok.",
+    "playerNotFound": "Oyuncu bulunamadı.",
+    "alreadyMember": "Bu oyuncu zaten üye.",
+    "alreadyInvited": "Bu oyuncu zaten davet edilmiş.",
+    "title": "Klan ayarları",
+    "pages": {
+      "info": "Bilgiler",
+      "members": "Üyeler",
+      "joins": "İstekler ve davetler",
+      "servers": "Sunucular",
+      "lfp": "Oyuncu arama ilanı"
+    }
+  },
+  "ConfirmDialog": {
+    "cancel": "Vazgeç",
+    "error": "Bir şeyler ters gitti. Lütfen tekrar dene."
+  },
+  "ClanJoin": {
+    "join": "Katıl",
+    "request": "Katılma isteği gönder",
+    "cancelRequest": "İsteği geri çek",
+    "acceptInvite": "Daveti kabul et",
+    "declineInvite": "Reddet",
+    "inviteOnly": "Sadece davetle",
+    "loginToJoin": "Katılmak için giriş yap",
+    "leave": "Klandan ayrıl",
+    "leaveTitle": "Klandan ayrılınsın mı?",
+    "leaveDescription": "Artık {name} klanının üyesi olmayacaksın.",
+    "yourInvites": "Klan davetleri",
+    "notFound": "Klan bulunamadı.",
+    "unauthorized": "Giriş yapman gerekiyor.",
+    "modeChanged": "Bu klan artık herkese açık değil. Lütfen tekrar dene.",
+    "cannotLeave": "Bu klandan ayrılamazsın.",
+    "actionError": "Bir şeyler ters gitti. Lütfen tekrar dene."
+  },
+  "Notifications": {
+    "title": "Bildirimler",
+    "open": "Bildirimler, {count} okunmamış",
+    "readAll": "Tümünü okundu yap",
+    "seeAll": "Tümünü gör",
+    "unread": "Okunmadı:",
+    "empty": "Bildirimin yok.",
+    "loading": "Yükleniyor...",
+    "loadError": "Bildirimler yüklenemedi. Lütfen tekrar dene.",
+    "types": {
+      "CLAN_JOIN_REQUEST": "{player}, {clan} klanına katılmak istiyor.",
+      "CLAN_REQUEST_ACCEPTED": "{clan} klanına katılma isteğin kabul edildi.",
+      "CLAN_REQUEST_REJECTED": "{clan} klanına katılma isteğin reddedildi.",
+      "CLAN_INVITE": "{clan} klanına davet edildin.",
+      "CLAN_MEMBER_JOINED": "{player}, {clan} klanına katıldı.",
+      "CLAN_ROLE_CHANGED": "{clan} klanındaki yeni rütben: {role}.",
+      "CLAN_REMOVED": "{clan} klanından çıkarıldın."
+    }
+  },
+  "ServerHistory": {
+    "empty": "Önceki sunucu yok."
+  },
+  "ServerSearch": {
+    "placeholder": "Sunucu adı yazın...",
+    "empty": "Aktif sunucu bulunamadı.",
+    "loading": "Yükleniyor...",
+    "loadError": "Sunucular yüklenemedi. Lütfen tekrar dene."
+  },
+  "ClanMembers": {
+    "searchTrigger": "Üye ara...",
+    "searchPlaceholder": "Kullanıcı adı veya Steam adı yazın...",
+    "empty": "Üye bulunamadı.",
+    "loading": "Yükleniyor...",
+    "loadError": "Üyeler yüklenemedi. Lütfen tekrar dene."
+  },
+  "Metadata": {
+    "tagline": "ROB RUN klanları ve oyuncuları",
+    "description": "ROB RUN için klan ve oyuncu bul, bir klana katıl, kendi klanını yönet.",
+    "clanNotFound": "Klan bulunamadı",
+    "clanDescription": "{name} adlı ROB RUN klanının duvarı, üyeleri ve aktif sunucuları.",
+    "playerNotFound": "Oyuncu bulunamadı",
+    "playerDescription": "{name} adlı ROB RUN oyuncusunun klanları ve sunucuları.",
+    "pages": {
+      "clans": {
+        "title": "Klanlar",
+        "description": "ROB RUN klanlarını ada, bölgeye ve daha fazlasına göre ara."
+      },
+      "players": {
+        "title": "Oyuncular",
+        "description": "ROB RUN oyuncularını kullanıcı adı veya Steam adıyla ara."
+      },
+      "lfc": {
+        "title": "Klan arayanlar",
+        "description": "Klan arayan ROB RUN oyuncuları."
+      },
+      "lfp": {
+        "title": "Oyuncu arayanlar",
+        "description": "Oyuncu arayan ROB RUN klanları."
+      },
+      "login": {
+        "title": "Giriş yap",
+        "description": "RR Clans hesabına giriş yap."
+      },
+      "register": {
+        "title": "Kayıt ol",
+        "description": "RR Clans hesabı oluştur ve ROB RUN klanını bul."
+      },
+      "profile": {
+        "title": "Profil",
+        "description": "Profilini düzenle ve sunucunu seç."
+      },
+      "notifications": {
+        "title": "Bildirimler",
+        "description": "RR Clans bildirimlerin."
+      }
+    }
   }
 }

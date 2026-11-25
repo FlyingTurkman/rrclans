@@ -1,24 +1,25 @@
 import { z } from "zod"
 import { serializeToPlainText, type RTEDocument } from "@/components/rte/rte-engine"
 import { postMaxLength } from "@/lib/src/constants"
-import { editorFonts, editorFontSizes } from "@/lib/src/editorOptions"
+import { editorFontSizes } from "@/lib/src/editorOptions"
+import { postVisibilities } from "@/lib/src/postVisibilities"
 import type { ValidationTranslator } from "@/types"
 
 export const POST_TITLE_MAX_LENGTH = 120
 
-// Hex, named or rgb()/hsl() colors. No quotes, semicolons or url(): the editor
-// writes the value into a style attribute without escaping it.
-const colorSchema = z.string().regex(/^(#[\da-f]{3,8}|[a-z]{1,30}|(rgb|hsl)a?\([\d\s.,%/]{1,60}\))$/i)
+// Posts have no font family and colors. Any value becomes the neutral one, so
+// nothing from the client reaches the style attribute.
+const noStyle = (neutral: string) => z.unknown().transform(() => neutral)
 
 // Document of the rich text editor. Unknown keys are removed.
 export const rteDocumentSchema = z.object({
     runs: z.array(z.object({
         id: z.string().max(100),
         text: z.string(),
-        fontFamily: z.enum(editorFonts),
+        fontFamily: noStyle("inherit"),
         fontSize: z.enum(editorFontSizes),
-        color: colorSchema,
-        markerColor: colorSchema,
+        color: noStyle("inherit"),
+        markerColor: noStyle("transparent"),
         format: z.array(z.enum(["bold", "italic", "underline", "strikethrough", "overline"])).max(5),
         align: z.enum(["left", "center", "right", "justify"]),
     })).min(1).max(5000),
@@ -32,6 +33,7 @@ export function createClanPostSchema(t: ValidationTranslator) {
             .trim()
             .min(1, t("required"))
             .max(POST_TITLE_MAX_LENGTH, t("maxLength", { max: POST_TITLE_MAX_LENGTH })),
+        visibility: z.enum(postVisibilities, t("required")),
         // One message for the whole editor instead of one per run.
         rawContent: z
             .custom<RTEDocument>()

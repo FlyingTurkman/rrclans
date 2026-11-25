@@ -1,4 +1,5 @@
 import LoginPageClient from "./page.client"
+import { getPageMetadata } from "@/lib/metadata"
 
 
 
@@ -8,6 +9,10 @@ import LoginPageClient from "./page.client"
 
 
 
+
+export function generateMetadata() {
+    return getPageMetadata("login")
+}
 
 export default function Page() {
 

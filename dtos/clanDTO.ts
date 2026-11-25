@@ -1,4 +1,4 @@
-import type { Clan, Region } from "@/types"
+import type { Clan, ClanJoinMode, Region } from "@/types"
 
 
 
@@ -15,6 +15,8 @@ export class ClanDto {
     clanTag: string
     clanHref: string
     region: Region
+    avatar: string | null
+    joinMode: ClanJoinMode
     memberCount: number
     createdAt: Date
 
@@ -24,6 +26,8 @@ export class ClanDto {
         this.clanTag = data.clanTag
         this.clanHref = data.clanHref
         this.region = data.region
+        this.avatar = data.avatar ?? null
+        this.joinMode = data.joinMode
         this.memberCount = data._count.members
         this.createdAt = data.createdAt
     }

@@ -5,6 +5,9 @@
 - Clan website for the game ROB RUN.
 - Next.js (App Router) + TypeScript + Tailwind v4 + shadcn/ui.
 - Prisma 6 with MongoDB (Prisma 7+ does not support MongoDB yet).
+  After a schema change: stop the dev server, run `npm run db:generate`, start it
+  again. It keeps the old client in memory, and on Windows it locks the engine
+  file, so generating while it runs fails with `EPERM`.
 - Shared types live in `types.d.ts` (import from `@/types`).
 - The project is open source: write all code comments and docs in English.
 
@@ -90,6 +93,18 @@ Layouts are split the same way: `layout.tsx` renders `<RouteName>LayoutClient`
 from `layout.client.tsx`. `app/c/[clanId]` loads the clan in its layout, its tabs
 (`wall`, `members`, `servers`) are routes and read it with `useClanContext()`
 (`context/ClanContext.tsx`). Add new tabs to `clanTabs` in the layout.
+The panel is not a tab: leader and officers open it with the settings icon in the header.
+It has its own layout with a shadcn `Sidebar`, every area is a page
+(`app/c/[clanId]/panel/*`). Add new areas to `panelPages` in that layout, which also
+checks `canManage`.
+
+## Metadata
+
+Every `page.tsx` exports `generateMetadata` (the only other code allowed there). Use
+`getPageMetadata("key")` from `lib/metadata.ts` and add the title and description to
+`Metadata.pages` in both message files; pass `false` for private pages (no indexing).
+Dynamic routes use `buildMetadata`. Never write the site name into a title, the
+template in the layout adds it.
 
 ## i18n (next-intl)
 
@@ -153,6 +168,16 @@ Auth actions: `actions/auth/register.ts`, `login.ts`, `logout.ts`
 (`logout`, `logoutAllDevices`), `refresh.ts` (`refreshSession`),
 `current-user.ts` (`getCurrentUser`).
 
+## Confirmation
+
+Ask before destructive actions with `components/layout/ConfirmDialog.tsx`.
+
+## Avatars of clans
+
+Always show clan avatars with `components/clans/ClanAvatar.tsx`.
+There are no uploads: the user provides ready-made images and the clan leader picks
+one of them. Not built yet, wait for the images.
+
 ## User avatars
 
 Always show user avatars with `components/user/UserAvatar.tsx` (shadcn `Avatar`):
@@ -177,6 +202,13 @@ const { user, setUser } = useSiteContext()
 - After login/register/logout, update it with `setUser` (e.g. `setUser(null)`
   after `logout()`).
 - New site-wide state goes into the same context.
+
+## Profile
+
+`/profile` edits the logged-in user. Its actions (`actions/profile`) take the user id
+only from `getSession()`, never from the client. Changing the email or the password
+needs the current password; a new password logs out every other device. Use
+`components/form/FormTextField.tsx` for plain text inputs in forms.
 
 ## DTOs
 
@@ -301,7 +333,9 @@ Filters live in the URL and are changed only with **use-search-query**
 - Every list uses `pageLimit` from `lib/src/constants.ts` as its page size
   (`skip: (page - 1) * pageLimit, take: pageLimit`). Never hardcode a limit.
 - Build filter bars from the shared `components/layout/ListSearch.tsx`,
-  `ListSortSelect.tsx` and `ListResetButton.tsx`.
+  `ListRegionSelect.tsx`, `ListServerSelect.tsx`, `ListRoleSelect.tsx`,
+  `ListSortSelect.tsx` and `ListResetButton.tsx`. Clan members use
+  `components/clans/ClanMemberList.tsx`.
 - Every list shows `components/layout/ListPagination.tsx` (shadcn `Pagination`):
   `<ListPagination page={query.page} pageCount={pageCount}/>`.
 - Text terms keep only letters, numbers, spaces, `-` and `_`, because a MongoDB
@@ -342,6 +376,10 @@ import { IoSearch } from "react-icons/io5"
 - `MainMenuSearchBar` lists results in `CommandList` (`actions/search/search.ts`,
   `searchLimit` per group). List pages use `ListSearch`, which only changes the
   URL and keeps `CommandList` empty, because the page shows the results.
+- Selecting from data that comes from the database (servers, players, clans...) also
+  uses this structure with a backend search, never a `Select`. `Select` is only for
+  short fixed lists (region, sort, rank...). For servers use
+  `components/servers/ServerSearch.tsx`.
 - Never add mock data or client-side filtering.
 
 ## Servers
@@ -353,19 +391,64 @@ import { IoSearch } from "react-icons/io5"
 - A clan can have many servers (`ClanServer` model). Add them only with
   `addServerToClan` (`lib/clans/servers.ts`), which rejects inactive servers.
   It does not check permissions: the calling server action must.
-- A player can have many servers (`UserServer` model). Add them only with
-  `addServerToPlayer` (`lib/players/servers.ts`), with the same rules.
-  Players assign only themselves. The action and UI are not built yet: wait until
-  the user asks for them.
+- A player has at most one active server (`UserServer.isActive`), their other records
+  are history and are never deleted. Change it only with `setPlayerServer` /
+  `leavePlayerServer`, read it with `getPlayerServers` (`lib/players/servers.ts`).
+  "Active" also needs the lifetime of the server: an expired one counts as history.
+  Players assign only themselves, on `/profile` (`actions/profile`).
 
 ## Clan permissions
 
 Check them in server actions with `getClanAccess` (`lib/clans/access.ts`). The
 flags sent to the client (`canManage`, `canEdit`, `canDelete`) only hide buttons.
 
-- Leader and officers: write wall posts, add and remove servers.
+- Leader and officers: write wall posts, use the panel (`/c/[clanId]/panel`): change
+  clan information, add and remove servers. Edit clan data only there, the other
+  tabs (except the wall) are read-only.
+- Members: the leader changes ranks of and removes everyone else, officers only
+  fighters and recruits. Nobody manages themselves. No leadership transfer yet. The
+  rules are in `lib/src/clanPermissions.ts`, enforced with `canManageMember`.
+- Ranks have a priority (`clanRolePriorities` in `lib/src/clanRoles.ts`), higher is more
+  powerful. Compare ranks only by priority. It is also saved in `ClanMember.priority` to
+  sort in the database: never write `role` alone, always `getRoleData(role)`.
 - Edit a post: its author, while still leader or officer.
 - Delete a post: its author, leader, officers, site `MOD` and `ADMIN`.
+- See a post: `PUBLIC` posts everyone, `MEMBER` posts only members of the clan (any
+  rank). Always filter in the query (`access.isMember`), never in the client.
+
+## Joining clans
+
+- `Clan.joinMode`: `INVITE` (only by invite), `REQUEST` (leader or officer accepts a
+  request) or `OPEN` (everyone joins at once). Invites can be sent in every mode.
+- New members are `RECRUIT`. Create members only with `addClanMember`
+  (`lib/clans/join.ts`), which removes their request and invite in one transaction.
+- `joinClan` reads the mode from the database, never from the client.
+- Leader and officers: join mode, requests and invites (panel). Everyone except the
+  leader can leave.
+
+## Notifications
+
+- Send them on the server with `createNotifications` (`lib/notifications/create.ts`),
+  about clans with `notifyUser` / `notifyClanManagers` (`lib/notifications/clan.ts`).
+  They never throw, send them after the action has succeeded.
+- No text is saved. A new `NotificationType` needs a text in `Notifications.types` of
+  both message files, its values are in `NotificationParams`.
+- `href` is optional and only a path on this site: with it a click opens that page,
+  without it a click only marks the notification as read.
+- `sourceKey` says what it is about: a new one replaces the unread one with the same
+  key, so nobody can flood a user.
+- Show them with `components/notifications/NotificationItem.tsx`. The unread number is
+  in the site context (`unreadCount`, `reloadUnreadCount`).
+- No polling. Live updates will use a socket, not built yet: wait until the user asks.
+
+## LFC and LFP
+
+- `/lfc` (looking for clan): listings of players, one per player (`LfcListing`),
+  managed by the player.
+- `/lfp` (looking for player): listings of clans, one per clan (`LfpListing`),
+  managed by its leader and officers.
+- Servers are not saved in a listing: they are the active server of the player or the
+  active servers of the clan.
 
 ## Rich text
 
@@ -378,3 +461,4 @@ flags sent to the client (`canManage`, `canEdit`, `canDelete`) only hide buttons
   `rteDocumentSchema`, then render it on the server with `serializeToHtml`.
 - The editor writes style values into the HTML without escaping. Every value it
   can produce must be allowed by the schema (`lib/src/editorOptions.ts`).
+- No font family and no color options (text or marker). The schema resets them.

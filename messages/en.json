@@ -5,7 +5,10 @@
     "register": "Register",
     "login": "Login",
     "loading": "Loading...",
-    "logout": "Log out"
+    "logout": "Log out",
+    "profile": "Profile",
+    "lfc": "Looking for clan",
+    "lfp": "Looking for player"
   },
   "Search": {
     "trigger": "Search for anything...",
@@ -21,7 +24,8 @@
     "minLength": "Must be at least {min} characters.",
     "maxLength": "Must be at most {max} characters.",
     "invalidEmail": "Enter a valid email address.",
-    "invalidContent": "The content is not valid."
+    "invalidContent": "The content is not valid.",
+    "invalidTag": "Only letters A-Z and numbers are allowed."
   },
   "RegisterPage": {
     "title": "Create an account",
@@ -40,7 +44,8 @@
     "invalidCredentials": "Email or password is incorrect.",
     "sessionExpired": "Your session has expired. Please log in again.",
     "unauthorized": "You need to log in.",
-    "unknown": "Something went wrong. Please try again."
+    "unknown": "Something went wrong. Please try again.",
+    "wrongPassword": "The current password is incorrect."
   },
   "LoginPage": {
     "title": "Welcome back",
@@ -54,12 +59,6 @@
     "title": "Clans",
     "searchTrigger": "Search clans...",
     "searchPlaceholder": "Type a clan name or tag...",
-    "regionLabel": "Region",
-    "allRegions": "All regions",
-    "regions": {
-      "EU": "Europe",
-      "NA": "North America"
-    },
     "members": "{count, plural, one {# member} other {# members}}",
     "empty": "No clans found.",
     "loading": "Loading...",
@@ -76,9 +75,20 @@
     "sorts": {
       "newest": "Newest",
       "oldest": "Oldest",
-      "name": "Name"
+      "name": "Name",
+      "rank": "Rank"
     },
-    "reset": "Reset filters"
+    "reset": "Reset filters",
+    "regionLabel": "Region",
+    "allRegions": "All regions",
+    "regions": {
+      "EU": "Europe",
+      "NA": "North America"
+    },
+    "allServers": "All servers",
+    "unknownServer": "Selected server",
+    "allRoles": "All ranks",
+    "roleLabel": "Rank"
   },
   "PlayersPage": {
     "title": "Players",
@@ -102,13 +112,13 @@
     "loading": "Loading...",
     "notFound": "Player not found.",
     "loadError": "The player could not be loaded. Please try again.",
-    "servers": "Active servers",
-    "noServers": "This player has no active servers.",
-    "serverEnds": "Ends on {date}"
+    "serverEnds": "Ends on {date}",
+    "server": "Active server",
+    "noServer": "This player has no active server.",
+    "serverHistory": "Server history"
   },
   "ClanPage": {
     "created": "Created on {date}",
-    "noMembers": "This clan has no members.",
     "loading": "Loading...",
     "notFound": "Clan not found.",
     "loadError": "The clan could not be loaded. Please try again.",
@@ -116,7 +126,8 @@
       "wall": "Wall",
       "members": "Members",
       "servers": "Servers"
-    }
+    },
+    "panel": "Clan settings"
   },
   "Language": {
     "label": "Language: {language}",
@@ -125,13 +136,13 @@
     "tr": "Türkçe"
   },
   "Editor": {
-    "fontDefault": "Default",
-    "fontMono": "Monospace",
     "sizeSmall": "Small",
     "sizeDefault": "Default",
     "sizeMedium": "Medium",
     "sizeLarge": "Large",
-    "sizeXLarge": "X-Large"
+    "sizeXLarge": "X-Large",
+    "readMore": "Read more",
+    "readLess": "Show less"
   },
   "ClanWall": {
     "newPost": "New post",
@@ -150,18 +161,234 @@
     "loadError": "The wall could not be loaded. Please try again.",
     "actionError": "Something went wrong. Please try again.",
     "forbidden": "You are not allowed to do this.",
-    "notFound": "Post not found."
+    "notFound": "Post not found.",
+    "visibility": "Who can see it",
+    "visibilities": {
+      "PUBLIC": "Public",
+      "MEMBER": "Members only"
+    }
   },
   "ClanServers": {
     "add": "Add a server",
     "remove": "Remove {name}",
     "ends": "Ends on {date}",
     "empty": "This clan has no active servers.",
-    "noAvailable": "There are no other active servers to add.",
     "actionError": "Something went wrong. Please try again.",
     "forbidden": "You are not allowed to do this.",
     "notFound": "Server not found.",
     "notActive": "This server is not active.",
     "alreadyAdded": "This server is already added."
+  },
+  "ProfilePage": {
+    "viewProfile": "View public profile",
+    "save": "Save",
+    "saved": "Saved.",
+    "loading": "Loading...",
+    "info": "Profile",
+    "infoDescription": "Your username and name are public.",
+    "username": "Username",
+    "name": "Name",
+    "surname": "Surname",
+    "email": "Email",
+    "emailDescription": "Current email: {email}",
+    "newEmail": "New email",
+    "currentPassword": "Current password",
+    "password": "Password",
+    "passwordDescription": "Changing it logs you out on your other devices.",
+    "newPassword": "New password",
+    "passwordSaved": "Your password has been changed.",
+    "removeServer": "Leave server",
+    "serverEnds": "Ends on {date}",
+    "serverErrors": {
+      "notFound": "Server not found.",
+      "notActive": "This server is not active."
+    },
+    "server": "Server",
+    "serverDescription": "The active server you play on. You can have only one.",
+    "chooseServer": "Choose a server",
+    "serverHistory": "Server history"
+  },
+  "Lfg": {
+    "message": "Message",
+    "save": "Save",
+    "cancel": "Cancel",
+    "create": "Create listing",
+    "edit": "Edit",
+    "delete": "Delete",
+    "yourListing": "Your listing",
+    "clanListing": "Listing of {name}",
+    "noListing": "There is no listing yet.",
+    "servers": "Active servers",
+    "noServers": "No active servers",
+    "updated": "Updated on {date}"
+  },
+  "LfcPage": {
+    "title": "Looking for clan",
+    "description": "Players who are searching for a clan.",
+    "login": "Log in to create a listing",
+    "searchTrigger": "Search players...",
+    "searchPlaceholder": "Type a username or Steam name...",
+    "empty": "No listings found.",
+    "loading": "Loading...",
+    "loadError": "The listings could not be loaded. Please try again."
+  },
+  "LfpPage": {
+    "title": "Looking for player",
+    "description": "Clans that are searching for players.",
+    "login": "Log in to create a listing for your clan",
+    "searchTrigger": "Search clans...",
+    "searchPlaceholder": "Type a clan name or tag...",
+    "empty": "No listings found.",
+    "loading": "Loading...",
+    "loadError": "The listings could not be loaded. Please try again.",
+    "forbidden": "You are not allowed to do this."
+  },
+  "ClanPanel": {
+    "info": "Clan information",
+    "clanName": "Clan name",
+    "clanTag": "Clan tag",
+    "save": "Save",
+    "saved": "Saved.",
+    "servers": "Servers",
+    "members": "Members",
+    "changeRole": "Change the rank of {name}",
+    "removeMember": "Remove {name}",
+    "remove": "Remove",
+    "removeTitle": "Remove this member?",
+    "removeDescription": "{name} will be removed from the clan.",
+    "tagTaken": "This tag is already taken.",
+    "memberNotFound": "Member not found.",
+    "conflict": "This member has just been changed by someone else. Please try again.",
+    "forbidden": "You are not allowed to do this.",
+    "actionError": "Something went wrong. Please try again.",
+    "joinMode": "How players join",
+    "joinModes": {
+      "INVITE": "By invite only",
+      "REQUEST": "By join request",
+      "OPEN": "Open to everyone"
+    },
+    "joins": "Join requests and invites",
+    "requests": "Join requests",
+    "noRequests": "There are no join requests.",
+    "accept": "Accept",
+    "reject": "Reject",
+    "invites": "Sent invites",
+    "noInvites": "There are no open invites.",
+    "invite": "Invite a player...",
+    "invitePlaceholder": "Type a username or Steam name...",
+    "cancelInvite": "Cancel invite",
+    "loading": "Loading...",
+    "requestNotFound": "This request no longer exists.",
+    "inviteNotFound": "This invite no longer exists.",
+    "playerNotFound": "Player not found.",
+    "alreadyMember": "This player is already a member.",
+    "alreadyInvited": "This player is already invited.",
+    "title": "Clan settings",
+    "pages": {
+      "info": "Information",
+      "members": "Members",
+      "joins": "Requests and invites",
+      "servers": "Servers",
+      "lfp": "Player search listing"
+    }
+  },
+  "ConfirmDialog": {
+    "cancel": "Cancel",
+    "error": "Something went wrong. Please try again."
+  },
+  "ClanJoin": {
+    "join": "Join",
+    "request": "Request to join",
+    "cancelRequest": "Cancel request",
+    "acceptInvite": "Accept invite",
+    "declineInvite": "Decline",
+    "inviteOnly": "Invite only",
+    "loginToJoin": "Log in to join",
+    "leave": "Leave clan",
+    "leaveTitle": "Leave this clan?",
+    "leaveDescription": "You will no longer be a member of {name}.",
+    "yourInvites": "Clan invites",
+    "notFound": "Clan not found.",
+    "unauthorized": "You need to log in.",
+    "modeChanged": "This clan is no longer open to everyone. Please try again.",
+    "cannotLeave": "You cannot leave this clan.",
+    "actionError": "Something went wrong. Please try again."
+  },
+  "Notifications": {
+    "title": "Notifications",
+    "open": "Notifications, {count} unread",
+    "readAll": "Mark all as read",
+    "seeAll": "See all",
+    "unread": "Unread:",
+    "empty": "You have no notifications.",
+    "loading": "Loading...",
+    "loadError": "The notifications could not be loaded. Please try again.",
+    "types": {
+      "CLAN_JOIN_REQUEST": "{player} wants to join {clan}.",
+      "CLAN_REQUEST_ACCEPTED": "Your request to join {clan} has been accepted.",
+      "CLAN_REQUEST_REJECTED": "Your request to join {clan} has been rejected.",
+      "CLAN_INVITE": "You have been invited to {clan}.",
+      "CLAN_MEMBER_JOINED": "{player} has joined {clan}.",
+      "CLAN_ROLE_CHANGED": "Your rank in {clan} is now {role}.",
+      "CLAN_REMOVED": "You have been removed from {clan}."
+    }
+  },
+  "ServerHistory": {
+    "empty": "No earlier servers."
+  },
+  "ServerSearch": {
+    "placeholder": "Type a server name...",
+    "empty": "No active servers found.",
+    "loading": "Loading...",
+    "loadError": "The servers could not be loaded. Please try again."
+  },
+  "ClanMembers": {
+    "searchTrigger": "Search members...",
+    "searchPlaceholder": "Type a username or Steam name...",
+    "empty": "No members found.",
+    "loading": "Loading...",
+    "loadError": "The members could not be loaded. Please try again."
+  },
+  "Metadata": {
+    "tagline": "ROB RUN clans and players",
+    "description": "Find clans and players for ROB RUN, join a clan and manage your own.",
+    "clanNotFound": "Clan not found",
+    "clanDescription": "Wall, members and active servers of the ROB RUN clan {name}.",
+    "playerNotFound": "Player not found",
+    "playerDescription": "Clans and servers of the ROB RUN player {name}.",
+    "pages": {
+      "clans": {
+        "title": "Clans",
+        "description": "Search and filter ROB RUN clans by name, region and more."
+      },
+      "players": {
+        "title": "Players",
+        "description": "Search ROB RUN players by username or Steam name."
+      },
+      "lfc": {
+        "title": "Looking for clan",
+        "description": "ROB RUN players who are searching for a clan."
+      },
+      "lfp": {
+        "title": "Looking for player",
+        "description": "ROB RUN clans that are searching for players."
+      },
+      "login": {
+        "title": "Log in",
+        "description": "Log in to your RR Clans account."
+      },
+      "register": {
+        "title": "Register",
+        "description": "Create an RR Clans account and find your ROB RUN clan."
+      },
+      "profile": {
+        "title": "Profile",
+        "description": "Edit your profile and choose your server."
+      },
+      "notifications": {
+        "title": "Notifications",
+        "description": "Your RR Clans notifications."
+      }
+    }
   }
 }

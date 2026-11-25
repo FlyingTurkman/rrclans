@@ -32,11 +32,11 @@ export async function updateClanPost(postId: string, input: ClanPostFormValues):
 
         if (!canEditPost(access, post.authorId)) return { success: false, error: t("forbidden") }
 
-        const { title, rawContent } = parsed.data
+        const { title, visibility, rawContent } = parsed.data
 
         await prisma.clanPost.update({
             where: { id: parsedId.data },
-            data: { title, rawContent, content: serializeToHtml(rawContent) },
+            data: { title, visibility, rawContent, content: serializeToHtml(rawContent) },
         })
 
         return { success: true, data: undefined }

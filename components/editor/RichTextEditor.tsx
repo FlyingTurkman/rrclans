@@ -5,20 +5,17 @@ import {
     RTE,
     RTEAlignToggle,
     RTECharacterCount,
-    RTEColorSelect,
     RTEContent,
-    RTEFontSelect,
     RTEFontSizeSelect,
     RTEFooter,
     RTEFormatToggle,
     RTEHeader,
     RTEListToggle,
-    RTEMarkerSelect,
     RTERedo,
     RTEUndo,
     type RTEDocument,
 } from "@/components/rte"
-import { editorFonts, editorFontSizes } from "@/lib/src/editorOptions"
+import { editorFontSizes } from "@/lib/src/editorOptions"
 
 
 
@@ -29,11 +26,6 @@ import { editorFonts, editorFontSizes } from "@/lib/src/editorOptions"
 
 
 // Translation keys of the options in lib/src/editorOptions.ts.
-const fontLabels = {
-    "inherit": "fontDefault",
-    "var(--font-geist-mono), monospace": "fontMono",
-} as const satisfies Record<(typeof editorFonts)[number], string>
-
 const sizeLabels = {
     "12px": "sizeSmall",
     "inherit": "sizeDefault",
@@ -51,7 +43,7 @@ type RichTextEditorProps = {
 }
 
 // Rich text editor (https://rte-shadcn.vercel.app) with the options the server
-// accepts.
+// accepts. There are no font family and color options on purpose.
 export default function RichTextEditor({ value, onValueChange, maxLength, invalid, label }: RichTextEditorProps) {
     const t = useTranslations("Editor")
 
@@ -64,10 +56,7 @@ export default function RichTextEditor({ value, onValueChange, maxLength, invali
             <RTEHeader>
                 <RTEUndo/>
                 <RTERedo/>
-                <RTEFontSelect options={editorFonts.map((font) => ({ value: font, label: t(fontLabels[font]) }))}/>
                 <RTEFontSizeSelect options={editorFontSizes.map((size) => ({ value: size, label: t(sizeLabels[size]) }))}/>
-                <RTEColorSelect/>
-                <RTEMarkerSelect/>
                 <RTEFormatToggle isStrikethroughActive/>
                 <RTEListToggle/>
                 <RTEAlignToggle/>

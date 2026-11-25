@@ -4,7 +4,7 @@ import { useTransition } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useTranslations } from "next-intl"
-import { IoChevronDown, IoLogOutOutline } from "react-icons/io5"
+import { IoChevronDown, IoLogOutOutline, IoPersonOutline } from "react-icons/io5"
 import { logout } from "@/actions/auth/logout"
 import {
     DropdownMenu,
@@ -75,6 +75,12 @@ export default function MainMenuAuth() {
                             </DropdownMenuLabel>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator/>
+                        <DropdownMenuItem
+                        render={<Link href="/profile"/>}
+                        >
+                            <IoPersonOutline/>
+                            {t('profile')}
+                        </DropdownMenuItem>
                         <DropdownMenuItem
                         variant="destructive"
                         disabled={isLoggingOut}

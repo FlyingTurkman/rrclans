@@ -1,4 +1,5 @@
 import ClansPageClient from "./page.client"
+import { getPageMetadata } from "@/lib/metadata"
 
 
 
@@ -8,6 +9,10 @@ import ClansPageClient from "./page.client"
 
 
 
+
+export function generateMetadata() {
+    return getPageMetadata("clans")
+}
 
 export default function Page() {
 

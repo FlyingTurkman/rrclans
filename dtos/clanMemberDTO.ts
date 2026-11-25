@@ -1,6 +1,7 @@
 import { ClanDto } from "@/dtos/clanDTO"
+import { ServerDto } from "@/dtos/serverDTO"
 import { PublicUserDto } from "@/dtos/userDTO"
-import type { Clan, ClanMember, ClanRole, User } from "@/types"
+import type { Clan, ClanMember, ClanRole, Server, User } from "@/types"
 
 
 
@@ -19,12 +20,16 @@ export class ClanMemberDto {
     role: ClanRole
     createdAt: Date
     user: PublicUserDto
+    // Active server of the member, null if there is none.
+    server: ServerDto | null
 
-    constructor(data: ClanMember & { user: Omit<User, "password"> }) {
+    constructor(data: ClanMember & { user: Omit<User, "password"> & { servers: { server: Server }[] } }) {
         this.id = data.id
         this.role = data.role
         this.createdAt = data.createdAt
         this.user = { ...new PublicUserDto(data.user) }
+        // The query selects only the active server.
+        this.server = data.user.servers[0] ? { ...new ServerDto(data.user.servers[0].server) } : null
     }
 }
 

@@ -11,9 +11,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { ClanPostDto } from "@/dtos/clanPostDTO"
 import { createClanPostSchema, POST_TITLE_MAX_LENGTH, type ClanPostFormValues } from "@/lib/schemas/clan-post.schema"
 import { postMaxLength } from "@/lib/src/constants"
+import { postVisibilities } from "@/lib/src/postVisibilities"
 
 
 
@@ -39,9 +41,12 @@ export default function ClanPostForm({ clanId, post, onSaved, onCancel }: ClanPo
         resolver: zodResolver(createClanPostSchema(tv)),
         defaultValues: {
             title: post?.title ?? "",
+            visibility: post?.visibility ?? postVisibilities[0],
             rawContent: post?.rawContent ?? createEmptyDocument("rte-empty"),
         },
     })
+
+    const visibilityItems = postVisibilities.map((value) => ({ value, label: t(`visibilities.${value}`) }))
 
     async function onSubmit(values: ClanPostFormValues) {
         try {
@@ -52,7 +57,7 @@ export default function ClanPostForm({ clanId, post, onSaved, onCancel }: ClanPo
                 return
             }
 
-            for (const name of ["title", "rawContent"] as const) {
+            for (const name of ["title", "visibility", "rawContent"] as const) {
                 const message = result.fieldErrors?.[name]
 
                 if (message) form.setError(name, { message })
@@ -88,6 +93,46 @@ export default function ClanPostForm({ clanId, post, onSaved, onCancel }: ClanPo
                                             autoComplete="off"
                                             aria-invalid={fieldState.invalid}
                                         />
+                                        {fieldState.invalid && <FieldError errors={[fieldState.error]}/>}
+                                    </Field>
+                                )
+                            }}
+                        />
+                        <Controller
+                            name="visibility"
+                            control={form.control}
+                            render={({ field, fieldState }) => {
+
+                                return (
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel htmlFor="clan-post-visibility">{t("visibility")}</FieldLabel>
+                                        <Select
+                                            items={visibilityItems}
+                                            value={field.value}
+                                            onValueChange={field.onChange}
+                                        >
+                                            <SelectTrigger
+                                                id="clan-post-visibility"
+                                                ref={field.ref}
+                                                onBlur={field.onBlur}
+                                                aria-invalid={fieldState.invalid}
+                                            >
+                                                <SelectValue/>
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {visibilityItems.map((item) => {
+
+                                                    return (
+                                                        <SelectItem
+                                                            key={item.value}
+                                                            value={item.value}
+                                                        >
+                                                            {item.label}
+                                                        </SelectItem>
+                                                    )
+                                                })}
+                                            </SelectContent>
+                                        </Select>
                                         {fieldState.invalid && <FieldError errors={[fieldState.error]}/>}
                                     </Field>
                                 )

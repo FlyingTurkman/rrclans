@@ -5,6 +5,7 @@ import { useParams } from "next/navigation"
 import { useFormatter, useTranslations } from "next-intl"
 import { getPlayer } from "@/actions/players/get-player"
 import ClanCard from "@/components/clans/ClanCard"
+import ServerHistory from "@/components/players/ServerHistory"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Spinner } from "@/components/ui/spinner"
 import UserAvatar from "@/components/user/UserAvatar"
@@ -67,7 +68,7 @@ export default function PlayerIdPageClient() {
                         username={result.data.player.username}
                         avatar={result.data.player.avatar}
                         size="lg"
-                        className="size-20 text-2xl"
+                        className="size-20 data-[size=lg]:size-20 *:text-3xl"
                         />
                         <div className="min-w-0">
                             <h1 className="truncate font-heading text-3xl font-extrabold italic font-stretch-condensed">
@@ -105,29 +106,24 @@ export default function PlayerIdPageClient() {
                         </ul>
                     )}
 
-                    <h2 className="font-heading text-xl font-bold">{t("servers")}</h2>
+                    <h2 className="font-heading text-xl font-bold">{t("server")}</h2>
 
-                    {result.data.servers.length === 0 ? (
-                        <p className="text-muted-foreground">{t("noServers")}</p>
+                    {result.data.server ? (
+                        <Card className="sm:max-w-sm">
+                            <CardHeader>
+                                <CardTitle>{result.data.server.serverName}</CardTitle>
+                                <CardDescription>
+                                    {t("serverEnds", { date: format.dateTime(result.data.server.endsAt, { dateStyle: "long", timeStyle: "short" }) })}
+                                </CardDescription>
+                            </CardHeader>
+                        </Card>
                     ) : (
-                        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            {result.data.servers.map((server) => {
-
-                                return (
-                                    <li key={server.id}>
-                                        <Card>
-                                            <CardHeader>
-                                                <CardTitle>{server.serverName}</CardTitle>
-                                                <CardDescription>
-                                                    {t("serverEnds", { date: format.dateTime(server.endsAt, { dateStyle: "long", timeStyle: "short" }) })}
-                                                </CardDescription>
-                                            </CardHeader>
-                                        </Card>
-                                    </li>
-                                )
-                            })}
-                        </ul>
+                        <p className="text-muted-foreground">{t("noServer")}</p>
                     )}
+
+                    <h2 className="font-heading text-xl font-bold">{t("serverHistory")}</h2>
+
+                    <ServerHistory servers={result.data.history}/>
                 </>
             )}
         </div>

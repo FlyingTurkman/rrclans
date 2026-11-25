@@ -11,37 +11,54 @@ datasource db {
 }
 
 model User {
-  id              String         @id @default(auto()) @map("_id") @db.ObjectId
-  username        String         @unique
-  name            String
-  surname         String
-  fullname        String
-  email           String         @unique
-  password        String // argon2id hash, never the plain password
-  role            UserRole       @default(MEMBER)
-  steamId         String?
-  steamUsername   String?
-  avatar          String?
-  clanMemberships ClanMember[]
-  refreshTokens   RefreshToken[]
-  accessTokens    AccessToken[]
-  clanPosts       ClanPost[]
-  servers         UserServer[]
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
+  id               String            @id @default(auto()) @map("_id") @db.ObjectId
+  username         String            @unique
+  name             String
+  surname          String
+  fullname         String
+  email            String            @unique
+  password         String // argon2id hash, never the plain password
+  role             UserRole          @default(MEMBER)
+  steamId          String?
+  steamUsername    String?
+  avatar           String?
+  clanMemberships  ClanMember[]
+  refreshTokens    RefreshToken[]
+  accessTokens     AccessToken[]
+  clanPosts        ClanPost[]
+  lfcListing       LfcListing?
+  clanJoinRequests ClanJoinRequest[]
+  clanInvites      ClanInvite[]
+  notifications    Notification[]
+  servers          UserServer[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+// How players join a clan: only by invite, by a request the leader or an officer
+// accepts, or open to everyone.
+enum ClanJoinMode {
+  INVITE
+  REQUEST
+  OPEN
 }
 
 model Clan {
-  id        String       @id @default(auto()) @map("_id") @db.ObjectId
-  clanName  String
-  clanTag   String       @unique
-  clanHref  String       @unique
-  region    Region
-  members   ClanMember[]
-  servers   ClanServer[]
-  posts     ClanPost[]
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  id           String            @id @default(auto()) @map("_id") @db.ObjectId
+  clanName     String
+  clanTag      String            @unique
+  clanHref     String            @unique
+  region       Region
+  avatar       String?
+  joinMode     ClanJoinMode      @default(REQUEST)
+  members      ClanMember[]
+  servers      ClanServer[]
+  posts        ClanPost[]
+  lfpListing   LfpListing?
+  joinRequests ClanJoinRequest[]
+  invites      ClanInvite[]
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
 }
 
 // ROB RUN server regions. Keep in sync with lib/src/regions.ts.
@@ -70,6 +87,9 @@ model ClanMember {
   userId    String   @db.ObjectId
   clanId    String   @db.ObjectId
   role      ClanRole @default(RECRUIT)
+  // Priority of the rank (lib/src/clanRoles.ts), higher is more powerful. Always
+  // written together with `role`.
+  priority  Int      @default(1)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -78,7 +98,7 @@ model ClanMember {
 
   // A user can only be a member of the same clan once.
   @@unique([userId, clanId])
-  @@index([clanId])
+  @@index([clanId, priority])
 }
 
 model Server {
@@ -157,39 +177,134 @@ model ClanServer {
   @@index([serverId])
 }
 
+// Who can see a clan post: everyone or only members of the clan.
+enum PostVisibility {
+  PUBLIC
+  MEMBER
+}
+
 // Blog posts on the wall of a clan. `rawContent` is the editor document
 // (RTEDocument), used to edit the post again. `content` is the HTML rendered
 // from it on the server, it is never taken from the client.
 model ClanPost {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  clanId     String   @db.ObjectId
-  authorId   String   @db.ObjectId
+  id         String         @id @default(auto()) @map("_id") @db.ObjectId
+  clanId     String         @db.ObjectId
+  authorId   String         @db.ObjectId
   title      String
   rawContent Json
   content    String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  visibility PostVisibility @default(PUBLIC)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
 
   clan   Clan @relation(fields: [clanId], references: [id], onDelete: Cascade)
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
-  @@index([clanId, createdAt])
+  @@index([clanId, visibility, createdAt])
   @@index([authorId])
 }
 
-// Servers a player is assigned to. A player can have many servers and a server
-// many players. Only active servers can be added (see lib/src/serverLifetime.ts).
+// Servers of a player. Only one is active (`isActive`), the others are history.
+// Only servers within their lifetime can be chosen (lib/src/serverLifetime.ts).
 model UserServer {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
   serverId  String   @db.ObjectId
+  isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
 
-  // A player can be assigned to the same server only once.
   @@unique([userId, serverId])
+  @@index([userId, isActive])
   @@index([serverId])
+}
+
+// Looking for clan: listing of a player who searches for a clan. Its servers
+// are the active servers of the player.
+model LfcListing {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @unique @db.ObjectId
+  region    Region
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Looking for player: listing of a clan that searches for players. Its region
+// and servers are those of the clan.
+model LfpListing {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  clanId    String   @unique @db.ObjectId
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clan Clan @relation(fields: [clanId], references: [id], onDelete: Cascade)
+}
+
+// Player who asked to join a clan (REQUEST mode).
+model ClanJoinRequest {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  clanId    String   @db.ObjectId
+  userId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clan Clan @relation(fields: [clanId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([clanId, userId])
+  @@index([userId])
+}
+
+// Player invited to a clan by its leader or an officer.
+model ClanInvite {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  clanId    String   @db.ObjectId
+  userId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clan Clan @relation(fields: [clanId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([clanId, userId])
+  @@index([userId])
+}
+
+enum NotificationType {
+  CLAN_JOIN_REQUEST
+  CLAN_REQUEST_ACCEPTED
+  CLAN_REQUEST_REJECTED
+  CLAN_INVITE
+  CLAN_MEMBER_JOINED
+  CLAN_ROLE_CHANGED
+  CLAN_REMOVED
+}
+
+// Notification of a user. No text is saved: it is translated from `type` and
+// `params` in the language of the reader.
+model Notification {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String           @db.ObjectId
+  type      NotificationType
+  params    Json
+  // Page on this site that opens on click. Without it nothing opens.
+  href      String?
+  isRead    Boolean          @default(false)
+  // What it is about. A new notification replaces an unread one with the same
+  // key, so nobody can flood a user by repeating an action.
+  sourceKey String
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([userId, isRead])
 }

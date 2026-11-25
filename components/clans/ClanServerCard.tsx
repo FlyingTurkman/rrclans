@@ -19,12 +19,14 @@ import type { ServerDto } from "@/dtos/serverDTO"
 
 type ClanServerCardProps = {
     server: ServerDto
+    // Shows the remove button (clan panel).
+    canRemove?: boolean
 }
 
-export default function ClanServerCard({ server }: ClanServerCardProps) {
+export default function ClanServerCard({ server, canRemove }: ClanServerCardProps) {
     const t = useTranslations("ClanServers")
     const format = useFormatter()
-    const { clan, canManage, reload } = useClanContext()
+    const { clan, reload } = useClanContext()
 
     const [error, setError] = useState<string | null>(null)
     const [isRemoving, startRemove] = useTransition()
@@ -54,7 +56,7 @@ export default function ClanServerCard({ server }: ClanServerCardProps) {
                 <CardDescription>
                     {t("ends", { date: format.dateTime(server.endsAt, { dateStyle: "long", timeStyle: "short" }) })}
                 </CardDescription>
-                {canManage && (
+                {canRemove && (
                     <CardAction>
                         <Button
                         variant="ghost"

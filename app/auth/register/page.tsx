@@ -1,4 +1,5 @@
 import RegisterPageClient from "./page.client"
+import { getPageMetadata } from "@/lib/metadata"
 
 
 
@@ -8,6 +9,10 @@ import RegisterPageClient from "./page.client"
 
 
 
+
+export function generateMetadata() {
+    return getPageMetadata("register")
+}
 
 export default function Page() {
 

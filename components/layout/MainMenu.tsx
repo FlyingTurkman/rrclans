@@ -2,6 +2,7 @@ import Link from "next/link"
 import MainMenuSearchBar from "./MainMenuSearchBar"
 import MainMenuAuth from "./MainMenuAuth"
 import MainMenuLanguage from "./MainMenuLanguage"
+import MainMenuNotifications from "./MainMenuNotifications"
 import { useTranslations } from "next-intl"
 
 // Main navigation links shown in the top bar.
@@ -9,6 +10,8 @@ import { useTranslations } from "next-intl"
 const menuItems = [
     { label: "clans", href: "/clans" },
     { label: "players", href: "/players" },
+    { label: "lfc", href: "/lfc" },
+    { label: "lfp", href: "/lfp" },
 ] as const
 
 export default function MainMenu() {
@@ -41,6 +44,7 @@ export default function MainMenu() {
                 </ul>
                 <MainMenuSearchBar/>
                 <div className="ml-auto flex items-center gap-4">
+                    <MainMenuNotifications/>
                     <MainMenuAuth/>
                     <MainMenuLanguage/>
                 </div>

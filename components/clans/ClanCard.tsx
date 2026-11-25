@@ -23,6 +23,7 @@ type ClanCardProps = {
 // Clan summary, links to the clan page.
 export default function ClanCard({ clan, role }: ClanCardProps) {
     const t = useTranslations("ClansPage")
+    const tl = useTranslations("ListFilters")
     const tr = useTranslations("ClanRoles")
 
     return (
@@ -33,7 +34,7 @@ export default function ClanCard({ clan, role }: ClanCardProps) {
             <Card className="transition-colors hover:bg-accent">
                 <CardHeader>
                     <CardTitle>[{clan.clanTag}] {clan.clanName}</CardTitle>
-                    <CardDescription>{t(`regions.${clan.region}`)}</CardDescription>
+                    <CardDescription>{tl(`regions.${clan.region}`)}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex justify-between gap-2">
                     <span>{t("members", { count: clan.memberCount })}</span>

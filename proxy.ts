@@ -10,7 +10,7 @@ import { rotateRefreshToken, verifyAccessToken } from "@/lib/auth/tokens"
 import type { AccessTokenPayload } from "@/types"
 
 // Routes that require a logged-in user. Visitors are sent to the login page.
-const PROTECTED_ROUTES: string[] = []
+const PROTECTED_ROUTES = ["/profile", "/notifications"]
 
 // Routes only for visitors. Logged-in users are sent to the home page.
 const GUEST_ONLY_ROUTES = ["/auth/login", "/auth/register"]

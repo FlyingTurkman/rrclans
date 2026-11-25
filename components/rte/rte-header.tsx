@@ -4,10 +4,7 @@ import { Fragment, type ComponentProps, type MouseEvent, type ReactNode } from "
 import { cn } from "@/lib/utils"
 import { RTEUndo } from "./rte-undo"
 import { RTERedo } from "./rte-redo"
-import { RTEFontSelect } from "./rte-font-select"
 import { RTEFontSizeSelect } from "./rte-font-size-select"
-import { RTEColorSelect } from "./rte-color-select"
-import { RTEMarkerSelect } from "./rte-marker-select"
 import { RTEFormatToggle } from "./rte-format-toggle"
 import { RTEListToggle } from "./rte-list-toggle"
 import { RTEAlignToggle } from "./rte-align-toggle"
@@ -16,10 +13,7 @@ import { RTESeparator } from "./rte-separator"
 export type RTEToolbarItem =
   | "undo"
   | "redo"
-  | "fontFamily"
   | "fontSize"
-  | "color"
-  | "marker"
   | "format"
   | "list"
   | "align"
@@ -28,10 +22,7 @@ export type RTEToolbarItem =
 const RTE_TOOLBAR_ITEMS: Record<RTEToolbarItem, () => ReactNode> = {
   undo: () => <RTEUndo />,
   redo: () => <RTERedo />,
-  fontFamily: () => <RTEFontSelect />,
   fontSize: () => <RTEFontSizeSelect />,
-  color: () => <RTEColorSelect />,
-  marker: () => <RTEMarkerSelect />,
   format: () => <RTEFormatToggle />,
   list: () => <RTEListToggle />,
   align: () => <RTEAlignToggle />,

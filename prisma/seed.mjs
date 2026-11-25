@@ -25,6 +25,9 @@ if (process.env.NODE_ENV === "production") {
 
 const prisma = new PrismaClient()
 
+// Same numbers as lib/src/clanRoles.ts.
+const rolePriorities = { LEADER: 4, OFFICER: 3, FIGHTER: 2, RECRUIT: 1 }
+
 const adjectives = ["Iron", "Dark", "Silent", "Crimson", "Golden", "Frozen", "Savage", "Desert", "Royal", "Shadow"]
 const nouns = ["Wolves", "Ravens", "Vipers", "Outlaws", "Bandits", "Kings"]
 const nameParts = ["Fox", "Hawk", "Bear", "Ghost", "Rider", "Storm", "Blade", "Viper", "Raven", "Titan", "Nomad", "Reaper"]
@@ -62,6 +65,11 @@ async function clear() {
     await prisma.clanServer.deleteMany({ where: { OR: [{ clanId: { in: clanIds } }, { serverId: { in: serverIds } }] } })
     await prisma.userServer.deleteMany({ where: { OR: [{ userId: { in: userIds } }, { serverId: { in: serverIds } }] } })
     await prisma.clanPost.deleteMany({ where: { OR: [{ authorId: { in: userIds } }, { clanId: { in: clanIds } }] } })
+    await prisma.notification.deleteMany({ where: { userId: { in: userIds } } })
+    await prisma.clanJoinRequest.deleteMany({ where: { OR: [{ userId: { in: userIds } }, { clanId: { in: clanIds } }] } })
+    await prisma.clanInvite.deleteMany({ where: { OR: [{ userId: { in: userIds } }, { clanId: { in: clanIds } }] } })
+    await prisma.lfcListing.deleteMany({ where: { userId: { in: userIds } } })
+    await prisma.lfpListing.deleteMany({ where: { clanId: { in: clanIds } } })
     await prisma.server.deleteMany({ where: { id: { in: serverIds } } })
     await prisma.clanMember.deleteMany({ where: { OR: [{ userId: { in: userIds } }, { clanId: { in: clanIds } }] } })
     await prisma.accessToken.deleteMany({ where: { userId: { in: userIds } } })
@@ -105,6 +113,7 @@ async function seed() {
             clanTag: `${adjective.slice(0, 2)}${noun.slice(0, 2)}`.toUpperCase(),
             clanHref: `${SEED_HREF_PREFIX}${adjective}-${noun}`.toLowerCase(),
             region: random() < 0.6 ? "EU" : "NA",
+            joinMode: ["INVITE", "REQUEST", "OPEN"][index % 3],
             createdAt: pastDate(20),
         }
     })
@@ -123,17 +132,20 @@ async function seed() {
 
     // One leader per clan. The other players join random clans, mostly the
     // first ones, so some clans are big. Every fifth one is in two clans.
-    const members = clanIds.map((clanId, index) => ({ clanId, userId: userIds[index], role: "LEADER", createdAt: pastDate(10) }))
+    const members = clanIds.map((clanId, index) => ({ clanId, userId: userIds[index], role: "LEADER", priority: rolePriorities.LEADER, createdAt: pastDate(10) }))
 
     for (let index = CLAN_COUNT; index < PLAYER_COUNT - CLANLESS_COUNT; index++) {
         const clanIndex = Math.floor(random() * random() * CLAN_COUNT)
         const joined = index % 5 === 0 ? [clanIndex, (clanIndex + 1) % CLAN_COUNT] : [clanIndex]
 
         for (const joinedIndex of joined) {
+            const role = pick(["OFFICER", "FIGHTER", "FIGHTER", "RECRUIT", "RECRUIT"])
+
             members.push({
                 clanId: clanIds[joinedIndex],
                 userId: userIds[index],
-                role: pick(["OFFICER", "FIGHTER", "FIGHTER", "RECRUIT", "RECRUIT"]),
+                role,
+                priority: rolePriorities[role],
                 createdAt: pastDate(10),
             })
         }
@@ -149,14 +161,36 @@ async function seed() {
 
     await prisma.server.createMany({ data: servers })
 
-    const serverRecords = await prisma.server.findMany({ where: { serverName: { startsWith: SEED_SERVER_PREFIX } }, select: { id: true } })
+    const serverRecords = await prisma.server.findMany({ where: { serverName: { startsWith: SEED_SERVER_PREFIX } }, select: { id: true, beganAt: true } })
 
     await prisma.clanServer.createMany({
         data: clanIds.flatMap((clanId) => serverRecords.filter(() => random() < 0.4).map((server) => ({ clanId, serverId: server.id }))),
     })
 
+    // Some servers per player, at most one of the newest three is active.
     await prisma.userServer.createMany({
-        data: userIds.flatMap((userId) => serverRecords.filter(() => random() < 0.2).map((server) => ({ userId, serverId: server.id }))),
+        data: userIds.flatMap((userId) => {
+            const joined = serverRecords.filter(() => random() < 0.4)
+            const active = joined.find(({ beganAt }) => Date.now() - beganAt.getTime() < 5 * 24 * 60 * 60 * 1000)
+
+            return joined.map((server) => ({ userId, serverId: server.id, isActive: server === active }))
+        }),
+    })
+
+    // Players without a clan search for one, every third clan searches for players.
+    await prisma.lfcListing.createMany({
+        data: userIds.slice(-CLANLESS_COUNT).map((userId) => ({
+            userId,
+            region: random() < 0.6 ? "EU" : "NA",
+            message: pick(["Active every evening, looking for a friendly clan.", "Fighter with a lot of free time.", "New player, happy to learn."]),
+        })),
+    })
+
+    await prisma.lfpListing.createMany({
+        data: clanIds.filter((_, index) => index % 3 === 0).map((clanId) => ({
+            clanId,
+            message: pick(["We need active fighters for district conflicts.", "Recruits welcome, we help new players.", "Looking for players with a microphone."]),
+        })),
     })
 
     console.log(`Added ${users.length} fake players, ${clans.length} fake clans and ${members.length} memberships.`)

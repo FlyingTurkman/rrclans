@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useTranslations } from "next-intl"
 import { Card, CardContent } from "@/components/ui/card"
 import UserAvatar from "@/components/user/UserAvatar"
+import type { ServerDto } from "@/dtos/serverDTO"
 import type { PublicUserDto } from "@/dtos/userDTO"
 import type { ClanRole } from "@/types"
 
@@ -19,10 +20,12 @@ type PlayerCardProps = {
     player: PublicUserDto
     // Rank of the player in a clan (clan page).
     role?: ClanRole
+    // Active server of the player.
+    server?: ServerDto | null
 }
 
 // Player summary, links to the player page.
-export default function PlayerCard({ player, role }: PlayerCardProps) {
+export default function PlayerCard({ player, role, server }: PlayerCardProps) {
     const t = useTranslations("PlayersPage")
     const tr = useTranslations("ClanRoles")
 
@@ -45,6 +48,7 @@ export default function PlayerCard({ player, role }: PlayerCardProps) {
                                 {t("steam", { name: player.steamUsername })}
                             </p>
                         )}
+                        {server && <p className="truncate text-muted-foreground">{server.serverName}</p>}
                     </div>
                     {role && <span className="font-medium text-primary">{tr(role)}</span>}
                 </CardContent>

@@ -1,4 +1,5 @@
 import PlayersPageClient from "./page.client"
+import { getPageMetadata } from "@/lib/metadata"
 
 
 
@@ -8,6 +9,10 @@ import PlayersPageClient from "./page.client"
 
 
 
+
+export function generateMetadata() {
+    return getPageMetadata("players")
+}
 
 export default function Page() {
 

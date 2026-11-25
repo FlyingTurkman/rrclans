@@ -1,7 +1,6 @@
 'use client'
 
 import { useTranslations } from "next-intl"
-import ClanServerAdd from "@/components/clans/ClanServerAdd"
 import ClanServerCard from "@/components/clans/ClanServerCard"
 import { useClanContext } from "@/context/ClanContext"
 
@@ -15,12 +14,10 @@ import { useClanContext } from "@/context/ClanContext"
 
 export default function ServersPageClient() {
     const t = useTranslations("ClanServers")
-    const { servers, canManage } = useClanContext()
+    const { servers } = useClanContext()
 
     return (
         <>
-            {canManage && <ClanServerAdd/>}
-
             {servers.length === 0 ? (
                 <p className="text-muted-foreground">{t("empty")}</p>
             ) : (
