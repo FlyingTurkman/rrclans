@@ -26,7 +26,9 @@
     "invalidEmail": "Geçerli bir e-posta adresi girin.",
     "invalidContent": "İçerik geçerli değil.",
     "numberRange": "{min} ile {max} arasında bir sayı olmalıdır.",
-    "invalidTag": "Yalnızca A-Z harfleri ve rakam kullanılabilir."
+    "invalidTag": "Yalnızca A-Z harfleri ve rakam kullanılabilir.",
+    "chooseServer": "En az bir sunucu seç.",
+    "maxServers": "En fazla {max} sunucu seçebilirsin."
   },
   "RegisterPage": {
     "title": "Hesap oluştur",
@@ -89,7 +91,12 @@
     "allServers": "Tüm sunucular",
     "unknownServer": "Seçili sunucu",
     "allRoles": "Tüm rütbeler",
-    "roleLabel": "Rütbe"
+    "roleLabel": "Rütbe",
+    "allItems": "Tüm eşyalar",
+    "itemLabel": "Eşya",
+    "allRarities": "Tüm nadirlikler",
+    "rarityLabel": "Nadirlik",
+    "unknownItem": "Seçili eşya"
   },
   "PlayersPage": {
     "title": "Oyuncular",
@@ -126,7 +133,8 @@
     "tabs": {
       "wall": "Duvar",
       "members": "Üyeler",
-      "servers": "Sunucular"
+      "servers": "Sunucular",
+      "inventory": "Envanter"
     },
     "panel": "Klan ayarları"
   },
@@ -234,9 +242,14 @@
     "yourListing": "İlanın",
     "clanListing": "{name} ilanı",
     "noListing": "Henüz ilan yok.",
-    "servers": "Aktif sunucular",
+    "servers": "Sunucular",
     "noServers": "Aktif sunucu yok",
-    "updated": "Güncelleme: {date}"
+    "updated": "Güncelleme: {date}",
+    "serversDescription": "İlan, seçtiğin sunucularda gösterilir.",
+    "addServer": "Sunucu ekle",
+    "role": "Aranan rütbe",
+    "lookingFor": "Aranan: {role}",
+    "noClanServers": "Klanının aktif sunucusu yok. Önce <link>klan ayarlarından</link> bir sunucu ekle."
   },
   "LfcPage": {
     "title": "Klan arayanlar",
@@ -246,7 +259,8 @@
     "searchPlaceholder": "Kullanıcı adı veya Steam adı yazın...",
     "empty": "İlan bulunamadı.",
     "loading": "Yükleniyor...",
-    "loadError": "İlanlar yüklenemedi. Lütfen tekrar dene."
+    "loadError": "İlanlar yüklenemedi. Lütfen tekrar dene.",
+    "serverNotActive": "Yalnızca aktif sunucuları seç."
   },
   "LfpPage": {
     "title": "Oyuncu arayanlar",
@@ -257,7 +271,8 @@
     "empty": "İlan bulunamadı.",
     "loading": "Yükleniyor...",
     "loadError": "İlanlar yüklenemedi. Lütfen tekrar dene.",
-    "forbidden": "Bunu yapmaya yetkin yok."
+    "forbidden": "Bunu yapmaya yetkin yok.",
+    "serverNotInClan": "Yalnızca klanının aktif sunucularını seç."
   },
   "ClanPanel": {
     "info": "Klan bilgileri",
@@ -364,12 +379,40 @@
     "loading": "Yükleniyor...",
     "loadError": "Sunucular yüklenemedi. Lütfen tekrar dene."
   },
+  "ItemSearch": {
+    "placeholder": "Eşya adı yazın...",
+    "empty": "Eşya bulunamadı.",
+    "loading": "Yükleniyor...",
+    "loadError": "Eşyalar yüklenemedi. Lütfen tekrar dene.",
+    "notFound": "Eşya bulunamadı."
+  },
   "ClanMembers": {
     "searchTrigger": "Üye ara...",
     "searchPlaceholder": "Kullanıcı adı veya Steam adı yazın...",
     "empty": "Üye bulunamadı.",
     "loading": "Yükleniyor...",
     "loadError": "Üyeler yüklenemedi. Lütfen tekrar dene."
+  },
+  "ClanInventory": {
+    "addTitle": "Eşya ekle",
+    "addDescription": "Eşyalar aktif sunucun {server} üzerinde listelenir. Zaten eklediğin bir eşyayı tekrar eklersen adedi değişir.",
+    "item": "Eşya",
+    "chooseItem": "Eşya seç",
+    "quantity": "Adet",
+    "add": "Ekle",
+    "noServerHint": "Eşyalarını listelemek için <link>profilinden</link> aktif sunucunu seç.",
+    "empty": "Aktif sunucularda eşya yok.",
+    "loading": "Yükleniyor...",
+    "loadError": "Envanter yüklenemedi. Lütfen tekrar dene.",
+    "membersOnly": "Envanteri yalnızca klan üyeleri görebilir.",
+    "noServer": "Eşya listelemek için aktif bir sunucun olmalı.",
+    "itemNotFound": "Bu eşya artık yok.",
+    "actionError": "Bir şeyler ters gitti. Lütfen tekrar dene.",
+    "remove": "{name} eşyasını kaldır",
+    "removeTitle": "Eşya kaldırılsın mı?",
+    "removeDescription": "{name} envanterden kaldırılacak.",
+    "removeConfirm": "Kaldır",
+    "price": "Değeri {price}"
   },
   "Metadata": {
     "tagline": "ROB RUN klanları ve oyuncuları",

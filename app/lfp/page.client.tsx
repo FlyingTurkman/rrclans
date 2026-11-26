@@ -12,7 +12,7 @@ import LfgFilters from "@/components/lfg/LfgFilters"
 import { buttonVariants } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 import { useSiteContext } from "@/context/SiteContext"
-import { lfgQuerySchema, type LfgQuery } from "@/lib/schemas/lfg-query.schema"
+import { lfpQuerySchema, type LfpQuery } from "@/lib/schemas/lfg-query.schema"
 import type { ActionResult, LfpList } from "@/types"
 
 
@@ -25,7 +25,7 @@ import type { ActionResult, LfpList } from "@/types"
 
 // Result of the last request and the query it belongs to.
 type LoadedListings = {
-    query: LfgQuery
+    query: LfpQuery
     result: ActionResult<LfpList>
 }
 
@@ -35,7 +35,7 @@ export default function LfpPageClient() {
     const searchParams = useSearchParams()
     const { user, isUserLoading } = useSiteContext()
 
-    const query = useMemo(() => lfgQuerySchema.parse(Object.fromEntries(searchParams)), [searchParams])
+    const query = useMemo(() => lfpQuerySchema.parse(Object.fromEntries(searchParams)), [searchParams])
 
     const [loaded, setLoaded] = useState<LoadedListings | null>(null)
     // Increased to load the list again after a change.

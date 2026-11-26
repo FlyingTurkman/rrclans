@@ -4,7 +4,7 @@ import { PlayerLocationDto } from "@/dtos/playerLocationDTO"
 import { ServerDto } from "@/dtos/serverDTO"
 import { prisma } from "@/lib/prisma"
 import { pageLimit } from "@/lib/src/constants"
-import { isServerActive } from "@/lib/src/serverLifetime"
+import { getActiveServerRange, isServerActive } from "@/lib/src/serverLifetime"
 import type { PlayerLocation, PlayerServers } from "@/types"
 
 export type SetServerResult = "set" | "notFound" | "notActive"
@@ -55,6 +55,16 @@ export async function setPlayerServer(userId: string, serverId: string): Promise
 /** Leaves the active server, it stays as history. Does not check permissions. */
 export async function leavePlayerServer(userId: string): Promise<void> {
     await prisma.userServer.updateMany({ where: { userId, isActive: true }, data: { isActive: false } })
+}
+
+/** Active server of a player, null if there is none or its lifetime has ended. */
+export async function getActivePlayerServer(userId: string) {
+    const record = await prisma.userServer.findFirst({
+        where: { userId, isActive: true, server: { beganAt: getActiveServerRange() } },
+        include: { server: true },
+    })
+
+    return record?.server ?? null
 }
 
 /**

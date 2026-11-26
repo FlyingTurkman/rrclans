@@ -24,6 +24,12 @@ export const serverLifetimeDays = 7
 // Maximum number of characters in a clan post.
 export const postMaxLength = 10000
 
+// Highest quantity of one item in a clan inventory.
+export const inventoryMaxQuantity = 9999
+
+// Most servers one LFC or LFP listing can be for.
+export const lfgMaxServers = 10
+
 // Maximum number of characters in an LFC or LFP listing.
 export const listingMaxLength = 500
 

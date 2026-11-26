@@ -56,6 +56,7 @@ model Clan {
   servers      ClanServer[]
   posts        ClanPost[]
   lfpListing   LfpListing?
+  inventory    ClanInventoryItem[]
   joinRequests ClanJoinRequest[]
   invites      ClanInvite[]
   createdAt    DateTime          @default(now())
@@ -91,6 +92,7 @@ model ClanMember {
   // Priority of the rank (lib/src/clanRoles.ts), higher is more powerful. Always
   // written together with `role`.
   priority  Int      @default(1)
+  inventory ClanInventoryItem[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -108,6 +110,7 @@ model Server {
   beganAt    DateTime
   clans      ClanServer[]
   players    UserServer[]
+  inventory  ClanInventoryItem[]
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 }
@@ -227,25 +230,54 @@ model UserServer {
   @@index([serverId])
 }
 
-// Looking for clan: listing of a player who searches for a clan. Its servers
-// are the active servers of the player.
+// Item a member has on a server, shown in the inventory of their clan. Only
+// items on active servers are shown (lib/src/serverLifetime.ts). Deleted with the
+// membership, so members who leave take their items with them.
+model ClanInventoryItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  clanId    String   @db.ObjectId
+  memberId  String   @db.ObjectId
+  serverId  String   @db.ObjectId
+  // Id of an item in lib/src/items.ts.
+  itemId    String
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clan   Clan       @relation(fields: [clanId], references: [id], onDelete: Cascade)
+  member ClanMember @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  server Server     @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  // A member lists the same item on a server only once.
+  @@unique([memberId, serverId, itemId])
+  @@index([clanId, updatedAt])
+  @@index([serverId])
+}
+
+// Looking for clan: listing of a player who searches for a clan, on the active
+// servers they chose. Expired servers are not shown.
 model LfcListing {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @unique @db.ObjectId
   region    Region
   message   String
+  serverIds String[] @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// Looking for player: listing of a clan that searches for players. Its region
-// and servers are those of the clan.
+// Looking for player: listing of a clan that searches for players for a rank, on
+// some of its active servers. Its region is that of the clan. Only servers the
+// clan still plays on are shown.
 model LfpListing {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  clanId    String   @unique @db.ObjectId
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  clanId    String    @unique @db.ObjectId
   message   String
+  serverIds String[]  @db.ObjectId
+  // Rank the clan is looking for, never LEADER. Missing on old listings (RECRUIT).
+  role      ClanRole?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

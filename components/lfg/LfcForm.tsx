@@ -1,16 +1,22 @@
 'use client'
 
+import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { useTranslations } from "next-intl"
 import { saveLfcListing } from "@/actions/lfc/save-lfc-listing"
+import { searchServers } from "@/actions/servers/search-servers"
+import FormSelectField from "@/components/form/FormSelectField"
 import FormTextareaField from "@/components/form/FormTextareaField"
+import LfgServerField from "@/components/lfg/LfgServerField"
+import ServerSearch from "@/components/servers/ServerSearch"
 import { Button } from "@/components/ui/button"
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { FieldError, FieldGroup } from "@/components/ui/field"
+import type { ServerDto } from "@/dtos/serverDTO"
 import { createLfcSchema, type LfcFormValues } from "@/lib/schemas/lfc.schema"
-import { listingMaxLength } from "@/lib/src/constants"
+import { lfgMaxServers, listingMaxLength } from "@/lib/src/constants"
 import { regions } from "@/lib/src/regions"
+import type { OwnLfcListing } from "@/types"
 
 
 
@@ -22,7 +28,7 @@ import { regions } from "@/lib/src/regions"
 
 type LfcFormProps = {
     // Current listing of the user, null for a new one.
-    listing: LfcFormValues | null
+    listing: OwnLfcListing | null
     onSaved: () => void
     onCancel: () => void
 }
@@ -33,12 +39,26 @@ export default function LfcForm({ listing, onSaved, onCancel }: LfcFormProps) {
     const tv = useTranslations("Validation")
     const te = useTranslations("AuthErrors")
 
+    // Servers found with the search stay in the list, also when switched off.
+    const [servers, setServers] = useState<ServerDto[]>(listing?.servers ?? [])
+
     const form = useForm<LfcFormValues>({
         resolver: zodResolver(createLfcSchema(tv)),
-        defaultValues: listing ?? { message: "", region: regions[0] },
+        defaultValues: {
+            message: listing?.message ?? "",
+            region: listing?.region ?? regions[0],
+            serverIds: listing?.servers.map(({ id }) => id) ?? [],
+        },
     })
 
     const regionItems = regions.map((value) => ({ value, label: tl(`regions.${value}`) }))
+
+    function handleAddServer(server: ServerDto) {
+        const ids = form.getValues("serverIds")
+
+        if (!servers.some(({ id }) => id === server.id)) setServers((current) => [...current, server])
+        if (!ids.includes(server.id)) form.setValue("serverIds", [...ids, server.id], { shouldValidate: form.formState.isSubmitted })
+    }
 
     async function onSubmit(values: LfcFormValues) {
         try {
@@ -49,7 +69,7 @@ export default function LfcForm({ listing, onSaved, onCancel }: LfcFormProps) {
                 return
             }
 
-            for (const name of ["message", "region"] as const) {
+            for (const name of ["message", "region", "serverIds"] as const) {
                 const message = result.fieldErrors?.[name]
 
                 if (message) form.setError(name, { message })
@@ -65,46 +85,27 @@ export default function LfcForm({ listing, onSaved, onCancel }: LfcFormProps) {
     return (
         <form autoComplete="off" onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup>
-                <Controller
-                    name="region"
+                <FormSelectField
                     control={form.control}
-                    render={({ field, fieldState }) => {
-
-                        return (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="lfc-region">{tl("regionLabel")}</FieldLabel>
-                                <Select
-                                    items={regionItems}
-                                    value={field.value}
-                                    onValueChange={field.onChange}
-                                >
-                                    <SelectTrigger
-                                        id="lfc-region"
-                                        ref={field.ref}
-                                        onBlur={field.onBlur}
-                                        aria-invalid={fieldState.invalid}
-                                    >
-                                        <SelectValue/>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {regionItems.map((item) => {
-
-                                            return (
-                                                <SelectItem
-                                                    key={item.value}
-                                                    value={item.value}
-                                                >
-                                                    {item.label}
-                                                </SelectItem>
-                                            )
-                                        })}
-                                    </SelectContent>
-                                </Select>
-                                {fieldState.invalid && <FieldError errors={[fieldState.error]}/>}
-                            </Field>
-                        )
-                    }}
+                    name="region"
+                    id="lfc-region"
+                    label={tl("regionLabel")}
+                    items={regionItems}
                 />
+                <LfgServerField
+                    control={form.control}
+                    name="serverIds"
+                    id="lfc-servers"
+                    servers={servers}
+                    empty={null}
+                >
+                    <ServerSearch
+                        triggerText={t("addServer")}
+                        search={searchServers}
+                        disabled={servers.length >= lfgMaxServers}
+                        onSelect={handleAddServer}
+                    />
+                </LfgServerField>
                 <FormTextareaField
                     control={form.control}
                     name="message"

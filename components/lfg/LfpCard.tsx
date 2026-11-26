@@ -23,6 +23,7 @@ export default function LfpCard({ listing }: LfpCardProps) {
     const t = useTranslations("Lfg")
     const tc = useTranslations("ClansPage")
     const tl = useTranslations("ListFilters")
+    const tr = useTranslations("ClanRoles")
     const format = useFormatter()
 
     return (
@@ -38,6 +39,7 @@ export default function LfpCard({ listing }: LfpCardProps) {
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-1 flex-col justify-between gap-3">
+                    <p className="text-sm font-medium text-primary">{t("lookingFor", { role: tr(listing.role) })}</p>
                     <p className="break-words whitespace-pre-wrap">{listing.message}</p>
                     <LfgServers servers={listing.servers}/>
                 </CardContent>

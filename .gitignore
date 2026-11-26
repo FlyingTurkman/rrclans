@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# saved MetaForge pages, input of scripts/import-items.py
+/items-sources/

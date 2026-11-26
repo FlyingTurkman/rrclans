@@ -13,6 +13,9 @@ export const clanRolePriorities = {
 // Clan ranks, highest to lowest.
 export const clanRoles = ["LEADER", "OFFICER", "FIGHTER", "RECRUIT"] as const satisfies readonly ClanRole[]
 
+// Ranks an LFP listing can look for: every rank except the leader.
+export const lfpRoles = ["OFFICER", "FIGHTER", "RECRUIT"] as const satisfies readonly ClanRole[]
+
 /** Data of a ClanMember with this rank. Never write `role` without `priority`. */
 export function getRoleData<T extends ClanRole>(role: T) {
     return { role, priority: clanRolePriorities[role] }

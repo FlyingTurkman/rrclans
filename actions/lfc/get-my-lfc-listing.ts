@@ -1,13 +1,14 @@
 "use server"
 
 import { getTranslations } from "next-intl/server"
+import { ServerDto } from "@/dtos/serverDTO"
 import { getSession } from "@/lib/auth/session"
 import { prisma } from "@/lib/prisma"
-import type { LfcFormValues } from "@/lib/schemas/lfc.schema"
-import type { ActionResult } from "@/types"
+import { getActiveServersById, pickServers } from "@/lib/servers/active"
+import type { ActionResult, OwnLfcListing } from "@/types"
 
-/** Listing of the logged-in user, or null if there is none. */
-export async function getMyLfcListing(): Promise<ActionResult<LfcFormValues | null>> {
+/** Listing of the logged-in user, or null if there is none. Expired servers are dropped. */
+export async function getMyLfcListing(): Promise<ActionResult<OwnLfcListing | null>> {
     const te = await getTranslations("AuthErrors")
 
     try {
@@ -17,10 +18,21 @@ export async function getMyLfcListing(): Promise<ActionResult<LfcFormValues | nu
 
         const listing = await prisma.lfcListing.findUnique({
             where: { userId: session.userId },
-            select: { message: true, region: true },
+            select: { message: true, region: true, serverIds: true },
         })
 
-        return { success: true, data: listing && { message: listing.message, region: listing.region } }
+        if (!listing) return { success: true, data: null }
+
+        const servers = pickServers(listing.serverIds ?? [], await getActiveServersById(listing.serverIds ?? []))
+
+        return {
+            success: true,
+            data: {
+                message: listing.message,
+                region: listing.region,
+                servers: servers.map((server) => ({ ...new ServerDto(server) })),
+            },
+        }
     } catch (error) {
         console.error("getMyLfcListing failed", error)
 

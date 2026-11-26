@@ -6,7 +6,8 @@ import { deleteLfcListing } from "@/actions/lfc/delete-lfc-listing"
 import { getMyLfcListing } from "@/actions/lfc/get-my-lfc-listing"
 import LfcForm from "@/components/lfg/LfcForm"
 import LfgOwnCard from "@/components/lfg/LfgOwnCard"
-import type { LfcFormValues } from "@/lib/schemas/lfc.schema"
+import LfgServers from "@/components/lfg/LfgServers"
+import type { OwnLfcListing } from "@/types"
 
 
 
@@ -25,7 +26,7 @@ export default function LfcOwnListing({ onChanged }: LfcOwnListingProps) {
     const t = useTranslations("Lfg")
 
     // Undefined until it is loaded.
-    const [listing, setListing] = useState<LfcFormValues | null | undefined>(undefined)
+    const [listing, setListing] = useState<OwnLfcListing | null | undefined>(undefined)
     const [version, setVersion] = useState(0)
 
     useEffect(() => {
@@ -53,6 +54,7 @@ export default function LfcOwnListing({ onChanged }: LfcOwnListingProps) {
         <LfgOwnCard
         title={t("yourListing")}
         message={listing?.message ?? null}
+        details={listing && <LfgServers servers={listing.servers}/>}
         onChanged={handleChanged}
         onDelete={deleteLfcListing}
         renderForm={(close) => {

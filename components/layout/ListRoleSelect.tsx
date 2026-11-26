@@ -21,10 +21,12 @@ const ALL_ROLES = "all"
 type ListRoleSelectProps = {
     // Rank currently in the URL.
     role?: ClanRole
+    // Ranks to choose from, all by default.
+    roles?: readonly ClanRole[]
 }
 
 // Clan rank filter of a list.
-export default function ListRoleSelect({ role }: ListRoleSelectProps) {
+export default function ListRoleSelect({ role, roles = clanRoles }: ListRoleSelectProps) {
     const t = useTranslations("ListFilters")
     const tr = useTranslations("ClanRoles")
     const pathname = usePathname()
@@ -32,7 +34,7 @@ export default function ListRoleSelect({ role }: ListRoleSelectProps) {
 
     const items = [
         { value: ALL_ROLES, label: t("allRoles") },
-        ...clanRoles.map((value) => ({ value, label: tr(value) })),
+        ...roles.map((value) => ({ value, label: tr(value) })),
     ]
 
     return (

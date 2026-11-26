@@ -26,7 +26,9 @@
     "invalidEmail": "Enter a valid email address.",
     "invalidContent": "The content is not valid.",
     "numberRange": "Must be a number from {min} to {max}.",
-    "invalidTag": "Only letters A-Z and numbers are allowed."
+    "invalidTag": "Only letters A-Z and numbers are allowed.",
+    "chooseServer": "Choose at least one server.",
+    "maxServers": "Choose at most {max} servers."
   },
   "RegisterPage": {
     "title": "Create an account",
@@ -89,7 +91,12 @@
     "allServers": "All servers",
     "unknownServer": "Selected server",
     "allRoles": "All ranks",
-    "roleLabel": "Rank"
+    "roleLabel": "Rank",
+    "allItems": "All items",
+    "itemLabel": "Item",
+    "allRarities": "All rarities",
+    "rarityLabel": "Rarity",
+    "unknownItem": "Selected item"
   },
   "PlayersPage": {
     "title": "Players",
@@ -126,7 +133,8 @@
     "tabs": {
       "wall": "Wall",
       "members": "Members",
-      "servers": "Servers"
+      "servers": "Servers",
+      "inventory": "Inventory"
     },
     "panel": "Clan settings"
   },
@@ -234,9 +242,14 @@
     "yourListing": "Your listing",
     "clanListing": "Listing of {name}",
     "noListing": "There is no listing yet.",
-    "servers": "Active servers",
+    "servers": "Servers",
     "noServers": "No active servers",
-    "updated": "Updated on {date}"
+    "updated": "Updated on {date}",
+    "serversDescription": "The listing is shown for the servers you switch on.",
+    "addServer": "Add a server",
+    "role": "Looking for",
+    "lookingFor": "Looking for: {role}",
+    "noClanServers": "Your clan has no active servers. Add one in the <link>clan settings</link> first."
   },
   "LfcPage": {
     "title": "Looking for clan",
@@ -246,7 +259,8 @@
     "searchPlaceholder": "Type a username or Steam name...",
     "empty": "No listings found.",
     "loading": "Loading...",
-    "loadError": "The listings could not be loaded. Please try again."
+    "loadError": "The listings could not be loaded. Please try again.",
+    "serverNotActive": "Choose only active servers."
   },
   "LfpPage": {
     "title": "Looking for player",
@@ -257,7 +271,8 @@
     "empty": "No listings found.",
     "loading": "Loading...",
     "loadError": "The listings could not be loaded. Please try again.",
-    "forbidden": "You are not allowed to do this."
+    "forbidden": "You are not allowed to do this.",
+    "serverNotInClan": "Choose only active servers of your clan."
   },
   "ClanPanel": {
     "info": "Clan information",
@@ -364,12 +379,40 @@
     "loading": "Loading...",
     "loadError": "The servers could not be loaded. Please try again."
   },
+  "ItemSearch": {
+    "placeholder": "Type an item name...",
+    "empty": "No items found.",
+    "loading": "Loading...",
+    "loadError": "The items could not be loaded. Please try again.",
+    "notFound": "Item not found."
+  },
   "ClanMembers": {
     "searchTrigger": "Search members...",
     "searchPlaceholder": "Type a username or Steam name...",
     "empty": "No members found.",
     "loading": "Loading...",
     "loadError": "The members could not be loaded. Please try again."
+  },
+  "ClanInventory": {
+    "addTitle": "Add an item",
+    "addDescription": "Items are listed on your active server {server}. Adding an item you already listed changes its quantity.",
+    "item": "Item",
+    "chooseItem": "Choose an item",
+    "quantity": "Quantity",
+    "add": "Add",
+    "noServerHint": "Choose your active server in your <link>profile</link> to list your items.",
+    "empty": "No items on active servers.",
+    "loading": "Loading...",
+    "loadError": "The inventory could not be loaded. Please try again.",
+    "membersOnly": "Only members of the clan can see the inventory.",
+    "noServer": "You need an active server to list items.",
+    "itemNotFound": "This item no longer exists.",
+    "actionError": "Something went wrong. Please try again.",
+    "remove": "Remove {name}",
+    "removeTitle": "Remove this item?",
+    "removeDescription": "{name} will be removed from the inventory.",
+    "removeConfirm": "Remove",
+    "price": "Worth {price}"
   },
   "Metadata": {
     "tagline": "ROB RUN clans and players",

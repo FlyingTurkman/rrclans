@@ -46,7 +46,7 @@ export default function LfcCard({ listing }: LfcCardProps) {
                 </CardHeader>
                 <CardContent className="flex flex-1 flex-col justify-between gap-3">
                     <p className="break-words whitespace-pre-wrap">{listing.message}</p>
-                    <LfgServers servers={listing.server ? [listing.server] : []}/>
+                    <LfgServers servers={listing.servers}/>
                 </CardContent>
             </Card>
         </Link>

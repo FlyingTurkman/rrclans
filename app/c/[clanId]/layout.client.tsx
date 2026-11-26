@@ -29,6 +29,7 @@ const clanTabs = [
     { value: "wall", path: "" },
     { value: "members", path: "/members" },
     { value: "servers", path: "/servers" },
+    { value: "inventory", path: "/inventory" },
 ] as const
 
 // Result of the last request, the clan and the user it belongs to.

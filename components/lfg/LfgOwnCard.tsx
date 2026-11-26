@@ -18,6 +18,8 @@ type LfgOwnCardProps = {
     title: string
     // Text of the current listing, null if there is none.
     message: string | null
+    // More about the listing, shown above its text.
+    details?: ReactNode
     // The listing has changed: load it again.
     onChanged: () => void
     onDelete: () => Promise<ActionResult>
@@ -25,7 +27,7 @@ type LfgOwnCardProps = {
 }
 
 // Own listing on /lfc and /lfp: create, edit and delete.
-export default function LfgOwnCard({ title, message, onChanged, onDelete, renderForm }: LfgOwnCardProps) {
+export default function LfgOwnCard({ title, message, details, onChanged, onDelete, renderForm }: LfgOwnCardProps) {
     const t = useTranslations("Lfg")
     const te = useTranslations("AuthErrors")
 
@@ -59,6 +61,7 @@ export default function LfgOwnCard({ title, message, onChanged, onDelete, render
             <CardContent className="flex flex-col gap-4">
                 {isEditing ? renderForm(() => setIsEditing(false)) : (
                     <>
+                        {message && details}
                         <p className={message ? "break-words whitespace-pre-wrap" : "text-muted-foreground"}>
                             {message ?? t("noListing")}
                         </p>
