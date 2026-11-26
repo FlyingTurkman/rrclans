@@ -414,6 +414,61 @@
     "removeConfirm": "Remove",
     "price": "Worth {price}"
   },
+  "HomePage": {
+    "eyebrow": "ROB RUN clan hub",
+    "title": "Find your clan, run your crew",
+    "intro": "RR Clans brings ROB RUN players and clans together: find a clan on your server, recruit players, and keep your crew organised for the whole week a server lasts.",
+    "register": "Create an account",
+    "chooseServer": "Choose your server",
+    "findClan": "Find a clan",
+    "browseClans": "Browse clans",
+    "loading": "Loading...",
+    "loadError": "The dashboard could not be loaded. Please try again.",
+    "stats": {
+      "clans": "Clans",
+      "players": "Players",
+      "servers": "Active servers",
+      "lfc": "Players looking for a clan",
+      "lfp": "Clans recruiting"
+    },
+    "featuresTitle": "What you can do",
+    "features": {
+      "clans": {
+        "title": "Clans and ranks",
+        "description": "Create a clan with its tag, avatar and join mode. Leader, officers, fighters and recruits each have their own rights."
+      },
+      "lfg": {
+        "title": "Looking for clan / player",
+        "description": "Post a listing for the servers you play on. Clans also say which rank they are recruiting for."
+      },
+      "servers": {
+        "title": "Servers and location",
+        "description": "Pick your active server and save your district and settlement. Every server lasts one week, old ones stay in your history."
+      },
+      "inventory": {
+        "title": "Clan inventory",
+        "description": "Members list the items they hold, with rarity and value. Items on expired servers disappear on their own."
+      },
+      "wall": {
+        "title": "Clan wall",
+        "description": "Leaders and officers post news for everyone or only for members, written with a rich text editor."
+      },
+      "notifications": {
+        "title": "Invites and notifications",
+        "description": "Invite players, answer join requests and get notified when your rank or clan changes."
+      }
+    },
+    "newestClans": "Newest clans",
+    "allClans": "All clans",
+    "noClans": "No clans yet.",
+    "activeServers": "Active servers",
+    "noServers": "There are no active servers right now.",
+    "serverStats": "{clans, plural, one {# clan} other {# clans}} · {players, plural, one {# player} other {# players}}",
+    "serverEnds": "ends {date}",
+    "latestLfp": "Clans recruiting",
+    "allListings": "All listings",
+    "noListings": "No clan is recruiting right now."
+  },
   "Metadata": {
     "tagline": "ROB RUN clans and players",
     "description": "Find clans and players for ROB RUN, join a clan and manage your own.",

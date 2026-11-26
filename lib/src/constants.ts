@@ -15,6 +15,9 @@ import type { District } from "@/types"
 
 export const pageLimit = 50
 
+// Newest clans, servers and listings on the home page.
+export const homePreviewLimit = 6
+
 // Results per group (clans, players) in the main menu search bar.
 export const searchLimit = 5
 

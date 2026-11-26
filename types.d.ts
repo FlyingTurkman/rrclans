@@ -164,6 +164,21 @@ export type ClanDetail = {
   joinStatus: ClanJoinStatus
 }
 
+/** Numbers and newest entries for the home page (getHomeDashboard). */
+export type HomeDashboard = {
+  stats: {
+    clanCount: number
+    playerCount: number
+    activeServerCount: number
+    lfcCount: number
+    lfpCount: number
+  }
+  clans: ClanDto[]
+  // Newest active servers, with their clans and active players counted.
+  servers: { server: ServerDto, clanCount: number, playerCount: number }[]
+  lfpListings: LfpListingDto[]
+}
+
 /** Results of the main menu search bar (search). */
 export type SearchResults = {
   clans: ClanDto[]

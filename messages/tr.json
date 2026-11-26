@@ -414,6 +414,61 @@
     "removeConfirm": "Kaldır",
     "price": "Değeri {price}"
   },
+  "HomePage": {
+    "eyebrow": "ROB RUN klan merkezi",
+    "title": "Klanını bul, ekibini yönet",
+    "intro": "RR Clans, ROB RUN oyuncularını ve klanlarını bir araya getirir: sunucundaki klanları bul, oyuncu topla ve bir sunucunun sürdüğü bir hafta boyunca ekibini düzenli tut.",
+    "register": "Hesap oluştur",
+    "chooseServer": "Sunucunu seç",
+    "findClan": "Klan bul",
+    "browseClans": "Klanlara göz at",
+    "loading": "Yükleniyor...",
+    "loadError": "Panel yüklenemedi. Lütfen tekrar dene.",
+    "stats": {
+      "clans": "Klan",
+      "players": "Oyuncu",
+      "servers": "Aktif sunucu",
+      "lfc": "Klan arayan oyuncu",
+      "lfp": "Oyuncu arayan klan"
+    },
+    "featuresTitle": "Neler yapabilirsin",
+    "features": {
+      "clans": {
+        "title": "Klanlar ve rütbeler",
+        "description": "Etiketi, avatarı ve katılma şekliyle bir klan kur. Lider, officer, fighter ve recruit'lerin her birinin kendi yetkileri var."
+      },
+      "lfg": {
+        "title": "Klan / oyuncu arama",
+        "description": "Oynadığın sunucular için ilan ver. Klanlar hangi rütbe için oyuncu aradığını da belirtir."
+      },
+      "servers": {
+        "title": "Sunucular ve konum",
+        "description": "Aktif sunucunu seç, district ve settlement bilgini kaydet. Her sunucu bir hafta sürer, eskiler geçmişinde kalır."
+      },
+      "inventory": {
+        "title": "Klan envanteri",
+        "description": "Üyeler ellerindeki eşyaları nadirliği ve değeriyle listeler. Süresi biten sunuculardaki eşyalar kendiliğinden kaybolur."
+      },
+      "wall": {
+        "title": "Klan duvarı",
+        "description": "Lider ve officer'lar herkese ya da yalnızca üyelere açık duyurular yazar, zengin metin editörüyle."
+      },
+      "notifications": {
+        "title": "Davetler ve bildirimler",
+        "description": "Oyuncu davet et, katılma isteklerini yanıtla, rütben ya da klanın değişince bildirim al."
+      }
+    },
+    "newestClans": "En yeni klanlar",
+    "allClans": "Tüm klanlar",
+    "noClans": "Henüz klan yok.",
+    "activeServers": "Aktif sunucular",
+    "noServers": "Şu an aktif sunucu yok.",
+    "serverStats": "{clans} klan · {players} oyuncu",
+    "serverEnds": "{date} bitiyor",
+    "latestLfp": "Oyuncu arayan klanlar",
+    "allListings": "Tüm ilanlar",
+    "noListings": "Şu an oyuncu arayan klan yok."
+  },
   "Metadata": {
     "tagline": "ROB RUN klanları ve oyuncuları",
     "description": "ROB RUN için klan ve oyuncu bul, bir klana katıl, kendi klanını yönet.",
